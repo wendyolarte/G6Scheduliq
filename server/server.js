@@ -3,7 +3,7 @@ require('express-async-errors');
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const { ensureAdmin } = require('./services/bootstrap');
+const { ensureSchema, ensureAdmin } = require('./services/bootstrap');
 
 if (!process.env.JWT_SECRET) {
   console.error('Missing JWT_SECRET. Copy .env.example to .env and fill it in.');
@@ -37,7 +37,8 @@ app.use((err, req, res, next) => {
 });
 
 const port = process.env.PORT || 3000;
-ensureAdmin()
+ensureSchema()
+  .then(ensureAdmin)
   .then(() => app.listen(port, () => console.log(`Smart Class Scheduler running at http://localhost:${port}`)))
   .catch(e => {
     console.error('Could not connect to MySQL:', e.message);
