@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard – Smart Class Scheduler</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-page="dashboard" data-roles="student,faculty,admin">
+  <main id="content">
+    <div class="page-head">
+      <div><h1 id="welcome">Welcome</h1><p class="muted" id="modeNote"></p></div>
+      <div class="toolbar" id="quick"></div>
+    </div>
+    <div class="grid cols-4" id="stats" style="margin-bottom:1.25rem"></div>
+    <div class="grid cols-2">
+      <div class="card"><h2>Today's classes</h2><div id="today">Loading…</div></div>
+      <div class="card"><h2>Next up</h2><div id="next">Loading…</div></div>
+    </div>
+    <div class="card"><h2>This week</h2><div id="week">Loading…</div></div>
+  </main>
+  <script src="../js/api.js"></script>
+  <script src="../js/ui.js"></script>
+  <script src="../js/layout.js"></script>
+  <script src="../js/dashboard.js"></script>
+  <script src="../js/chatbot.js"></script>
+</body>
+</html>

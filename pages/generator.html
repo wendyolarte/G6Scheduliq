@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Auto Generator – Smart Class Scheduler</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-page="generator" data-roles="faculty,admin">
+  <main id="content">
+    <div class="page-head">
+      <div><h1>Automatic Schedule Generator</h1>
+      <p class="muted">Pick courses and preferences. The engine matches rooms by capacity and equipment, avoids instructor/student/room clashes and keeps the best of many tries.</p></div>
+    </div>
+
+    <div class="grid cols-2">
+      <div class="card">
+        <h2>1. Courses to schedule</h2>
+        <div class="toolbar"><button class="btn secondary sm" id="selAll">Select all</button><button class="btn secondary sm" id="selNone">Clear</button></div>
+        <div id="courseList" class="checks" style="flex-direction:column;gap:.4rem">Loading…</div>
+      </div>
+      <div class="card">
+        <h2>2. Constraints &amp; preferences</h2>
+        <div class="field"><label>Days</label><div class="checks" id="dayChecks"></div></div>
+        <div class="row">
+          <div class="field"><label>Day starts</label><input type="time" id="dayStart" value="07:30"></div>
+          <div class="field"><label>Day ends</label><input type="time" id="dayEnd" value="19:00"></div>
+          <div class="field"><label>Time step</label><select id="step"><option value="30">30 min</option><option value="60">60 min</option><option value="15">15 min</option></select></div>
+        </div>
+        <div class="checks" style="margin-bottom:.9rem">
+          <label><input type="checkbox" id="lunch" checked> Keep 12:00–13:00 free</label>
+          <label><input type="checkbox" id="morning"> Prefer morning classes</label>
+        </div>
+        <div class="field"><label>Optimisation effort: <b id="itVal">15</b> tries</label><input type="range" id="iters" min="1" max="60" value="15" style="padding:0"></div>
+        <button class="btn lg block" id="genBtn">⚙️ Generate schedule</button>
+      </div>
+    </div>
+
+    <div id="output"></div>
+  </main>
+  <script src="../js/api.js"></script>
+  <script src="../js/ui.js"></script>
+  <script src="../js/layout.js"></script>
+  <script src="../js/generator.js"></script>
+  <script src="../js/chatbot.js"></script>
+</body>
+</html>

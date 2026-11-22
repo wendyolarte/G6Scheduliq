@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Smart Class Scheduler</title>
+  <meta name="description" content="Plan, optimise and approve class schedules with room, capacity and equipment awareness.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-nav">
+    <a href="index.html" class="brand" style="color:var(--text)"><span class="logo">🎓</span>Class Scheduler</a>
+    <nav class="links">
+      <a class="plain" href="#features">Features</a>
+      <a class="plain" href="#modes">Modes</a>
+      <a class="plain" href="#integrations">Integrations</a>
+      <a id="navLogin" class="btn secondary sm" href="pages/login.html">Log in</a>
+      <a id="navSignup" class="btn sm" href="pages/register.html">Sign up</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Class schedules that build themselves — and never clash</h1>
+    <p>Generate conflict-free timetables that respect room capacity, equipment and everyone's availability. Then sync them to Google Calendar, Zoom and Google Classroom.</p>
+    <a class="btn lg" style="background:#fff;color:var(--primary-d)" id="heroCta" href="pages/register.html">Get started free</a>
+    <a class="btn lg secondary" href="pages/login.html">I already have an account</a>
+  </section>
+
+  <section class="section" id="features">
+    <h2>Everything you need to schedule with confidence</h2>
+    <p class="sub">Ten built-in features cover the full scheduling lifecycle.</p>
+    <div class="auto-grid">
+      <div class="feature"><div class="ic">🗂️</div><h3>Scheduling Information Management</h3><p class="muted small">Courses, instructors, rooms and sessions organised and stored securely in MySQL.</p></div>
+      <div class="feature"><div class="ic">⚙️</div><h3>Automated Schedule Generation</h3><p class="muted small">Create a full class timetable in one click.</p></div>
+      <div class="feature"><div class="ic">🎯</div><h3>Constraint Optimization</h3><p class="muted small">Tries many combinations and keeps the best fit for your requirements.</p></div>
+      <div class="feature"><div class="ic">🏫</div><h3>Classroom Availability</h3><p class="muted small">See which rooms are free for any day and time.</p></div>
+      <div class="feature"><div class="ic">👥</div><h3>Classroom Capacity</h3><p class="muted small">Rooms are matched to class size so nobody is left standing.</p></div>
+      <div class="feature"><div class="ic">🖥️</div><h3>Equipment Aware</h3><p class="muted small">Labs, projectors and sound systems are matched to what each course needs.</p></div>
+      <div class="feature"><div class="ic">⚠️</div><h3>Schedule Conflict Detection</h3><p class="muted small">Instantly spots room, instructor and student overlaps.</p></div>
+      <div class="feature"><div class="ic">💡</div><h3>Alternative Scheduling Suggestions</h3><p class="muted small">Get other good slots whenever something clashes.</p></div>
+      <div class="feature"><div class="ic">📅</div><h3>Schedule Viewing &amp; Management</h3><p class="muted small">Weekly timetable and list views with easy editing.</p></div>
+      <div class="feature"><div class="ic">✅</div><h3>Schedule Review &amp; Approval</h3><p class="muted small">Faculty submit, admins review and approve.</p></div>
+    </div>
+  </section>
+
+  <div class="alt-bg">
+    <section class="section" id="modes">
+      <h2>One system, three modes</h2>
+      <p class="sub">Pick the mode that matches your role when you sign in.</p>
+      <div class="grid cols-3">
+        <div class="feature"><div class="ic">🎒</div><h3>Student Mode</h3><p class="muted small">View your approved timetable, enrol in courses, find free rooms, scan your timetable from a photo and sync it to your calendar.</p></div>
+        <div class="feature"><div class="ic">👩‍🏫</div><h3>Faculty/Staff Mode</h3><p class="muted small">Manage your courses, auto-generate schedules, fix conflicts with suggestions and submit schedules for approval.</p></div>
+        <div class="feature"><div class="ic">🛡️</div><h3>Admin Mode</h3><p class="muted small">Restricted access. Review and approve schedules, manage rooms, equipment and user accounts.</p></div>
+      </div>
+    </section>
+  </div>
+
+  <section class="section" id="integrations">
+    <h2>Works with the tools you already use</h2>
+    <p class="sub">Keep your calendar, meetings and classes in sync.</p>
+    <div class="grid cols-4">
+      <div class="feature center"><div class="ic">📆</div><h3>Google Calendar</h3><p class="muted small">One-click add or full .ics export.</p></div>
+      <div class="feature center"><div class="ic">🎥</div><h3>Zoom</h3><p class="muted small">Attach join links to every course.</p></div>
+      <div class="feature center"><div class="ic">🏷️</div><h3>Google Classroom</h3><p class="muted small">Share schedules and course links.</p></div>
+      <div class="feature center"><div class="ic">📷</div><h3>Scan a Timetable</h3><p class="muted small">Snap a photo and it becomes calendar events.</p></div>
+    </div>
+  </section>
+
+  <footer class="footer">Smart Class Scheduler &middot; Built with HTML, CSS, JavaScript, Node.js and MySQL</footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/index.js"></script>
+  <script src="js/chatbot.js"></script>
+</body>
+</html>

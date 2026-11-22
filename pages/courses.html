@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Courses – Smart Class Scheduler</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-page="courses" data-roles="student,faculty,admin">
+  <main id="content">
+    <div class="page-head">
+      <div><h1>Courses</h1><p class="muted" id="subtitle"></p></div>
+      <div class="toolbar"><button class="btn" id="addBtn">+ New course</button></div>
+    </div>
+    <div class="card">
+      <div class="toolbar">
+        <input id="search" class="grow" placeholder="Search by code, name or instructor…">
+        <label class="small" id="mineWrap"><input type="checkbox" id="mine"> <span id="mineLbl">Only mine</span></label>
+      </div>
+      <div class="table-wrap" id="list">Loading…</div>
+    </div>
+  </main>
+  <script src="../js/api.js"></script>
+  <script src="../js/ui.js"></script>
+  <script src="../js/layout.js"></script>
+  <script src="../js/courses.js"></script>
+  <script src="../js/chatbot.js"></script>
+</body>
+</html>

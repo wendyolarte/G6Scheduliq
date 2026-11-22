@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin Panel – Smart Class Scheduler</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-page="admin" data-roles="admin">
+  <main id="content">
+    <div class="page-head">
+      <div><h1>Admin Panel</h1><p class="muted">Admin Mode is only available to administrator accounts.</p></div>
+    </div>
+    <div class="tabs" id="tabs">
+      <button class="tab active" data-t="overview">Overview</button>
+      <button class="tab" data-t="users">Users</button>
+      <button class="tab" data-t="equipment">Equipment</button>
+    </div>
+    <section id="overview"></section>
+    <section id="users" class="hidden">
+      <div class="card">
+        <div class="toolbar"><input id="uSearch" class="grow" placeholder="Search users by name or email…"><button class="btn" id="addUser">+ Add user</button></div>
+        <div class="table-wrap" id="uList">Loading…</div>
+      </div>
+    </section>
+    <section id="equipment" class="hidden">
+      <div class="card">
+        <h2>Classroom equipment</h2>
+        <p class="muted small">Equipment is assigned to rooms (Classrooms page) and required by courses (Courses page).</p>
+        <div class="toolbar"><input id="eqName" placeholder="New equipment, e.g. Document Camera"><button class="btn" id="eqAdd">Add</button></div>
+        <div id="eqList"></div>
+      </div>
+    </section>
+  </main>
+  <script src="../js/api.js"></script>
+  <script src="../js/ui.js"></script>
+  <script src="../js/layout.js"></script>
+  <script src="../js/admin.js"></script>
+  <script src="../js/chatbot.js"></script>
+</body>
+</html>

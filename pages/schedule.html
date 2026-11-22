@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Schedules – Smart Class Scheduler</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-page="schedule" data-roles="student,faculty,admin">
+  <main id="content">
+    <div class="page-head">
+      <div><h1 id="title">Schedules</h1><p class="muted" id="subtitle"></p></div>
+      <div class="toolbar">
+        <button class="btn" id="addBtn">+ Add session</button>
+        <button class="btn secondary" id="printBtn">🖨 Print</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="toolbar">
+        <div class="seg" style="width:auto" id="viewSeg"><button data-v="week" class="active">Weekly view</button><button data-v="list">List view</button></div>
+        <select id="fStatus"><option value="">All statuses</option><option>draft</option><option>pending</option><option>approved</option><option>rejected</option></select>
+        <select id="fDay"><option value="">All days</option></select>
+        <input id="fSearch" class="grow" placeholder="Search course, room or instructor…">
+        <label class="small" id="campusWrap"><input type="checkbox" id="campus"> Show whole campus</label>
+      </div>
+      <div id="weekView"></div>
+      <div id="listView" class="table-wrap hidden"></div>
+    </div>
+  </main>
+  <script src="../js/api.js"></script>
+  <script src="../js/ui.js"></script>
+  <script src="../js/layout.js"></script>
+  <script src="../js/schedule.js"></script>
+  <script src="../js/chatbot.js"></script>
+</body>
+</html>

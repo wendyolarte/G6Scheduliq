@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scan Schedule – Smart Class Scheduler</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-page="scan" data-roles="student,faculty,admin">
+  <main id="content">
+    <div class="page-head">
+      <div><h1>Scan Your Schedule</h1><p class="muted">Take a picture of a timetable or upload a screenshot. The text is read on your device, turned into events you can edit, then saved to your calendar.</p></div>
+    </div>
+
+    <div class="grid cols-2">
+      <div class="card">
+        <h2>1. Add a picture</h2>
+        <div class="field"><label>Take a photo or choose an image</label><input type="file" id="file" accept="image/*" capture="environment"></div>
+        <img id="preview" alt="Preview" class="hidden" style="max-width:100%;border-radius:10px;border:1px solid var(--border)">
+        <div class="toolbar" style="margin-top:.75rem"><button class="btn" id="readBtn" disabled>🔍 Read schedule</button><span class="muted small" id="status"></span></div>
+        <div class="progress hidden" id="prog"><div></div></div>
+        <p class="muted small">Tip: good light, straight-on photo, and lines like <i>“MATH101 MWF 8:00-9:30 Room 201”</i> work best.</p>
+      </div>
+      <div class="card">
+        <h2>Text found (editable)</h2>
+        <textarea id="raw" rows="10" placeholder="The recognised text appears here. You can also paste or type your schedule and press Re-parse."></textarea>
+        <div class="toolbar" style="margin-top:.5rem"><button class="btn secondary" id="parseBtn">Re-parse text</button></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>2. Review events</h2>
+      <p class="muted small">Fix anything that was misread. Untick rows you do not want.</p>
+      <div class="table-wrap" id="rows"><div class="empty">No events yet.</div></div>
+      <div class="toolbar" style="margin-top:1rem">
+        <button class="btn secondary" id="addRow">+ Add row</button>
+        <button class="btn ok" id="saveBtn">💾 Save to my schedule</button>
+        <a class="btn secondary" href="sync.html">🔗 Go to Sync</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Saved personal events</h2>
+      <div class="table-wrap" id="saved">Loading…</div>
+    </div>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../js/ui.js"></script>
+  <script src="../js/layout.js"></script>
+  <script src="../js/scan.js"></script>
+  <script src="../js/chatbot.js"></script>
+</body>
+</html>

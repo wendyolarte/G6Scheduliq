@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign up – Smart Class Scheduler</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="auth-wrap">
+    <div class="auth-art">
+      <a href="../index.html" class="brand"><span class="logo">🎓</span>Class Scheduler</a>
+      <h2>Create your account</h2>
+      <ul>
+        <li>Students: view timetables, enrol, scan &amp; sync</li>
+        <li>Faculty/Staff: generate &amp; submit schedules</li>
+        <li>Free to use, secure by design</li>
+      </ul>
+    </div>
+    <div class="auth-form">
+      <div class="auth-box">
+        <h1>Sign up</h1>
+        <p class="muted">I am a…</p>
+        <div class="seg" id="roleSeg" style="margin-bottom:1rem">
+          <button type="button" data-role="student" class="active">🎒 Student</button>
+          <button type="button" data-role="faculty">👩‍🏫 Faculty/Staff</button>
+        </div>
+        <div id="err" class="alert error hidden"></div>
+        <form id="regForm" novalidate>
+          <div class="field"><label for="name">Full name</label><input id="name" required autocomplete="name"></div>
+          <div class="field"><label for="email">Email</label><input id="email" type="email" required autocomplete="username"></div>
+          <div class="row">
+            <div class="field"><label for="department">Department / Program</label><input id="department" placeholder="e.g. Computer Science"></div>
+            <div class="field"><label for="school_id" id="idLabel">Student ID</label><input id="school_id" placeholder="Optional"></div>
+          </div>
+          <div class="field"><label for="password">Password</label><input id="password" type="password" minlength="8" placeholder="At least 8 characters" required autocomplete="new-password"></div>
+          <div class="field"><label for="confirm">Confirm password</label><input id="confirm" type="password" required autocomplete="new-password"></div>
+          <button class="btn block lg" id="submitBtn" type="submit">Create account</button>
+        </form>
+        <p class="center small" style="margin-top:1rem">Already registered? <a href="login.html">Log in</a></p>
+        <p class="center small muted">Admin accounts are created by an existing admin.</p>
+      </div>
+    </div>
+  </div>
+  <script src="../js/api.js"></script>
+  <script src="../js/ui.js"></script>
+  <script src="../js/register.js"></script>
+  <script src="../js/chatbot.js"></script>
+</body>
+</html>

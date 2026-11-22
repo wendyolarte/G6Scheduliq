@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sync &amp; Integrations – Smart Class Scheduler</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-page="sync" data-roles="student,faculty,admin">
+  <main id="content">
+    <div class="page-head">
+      <div><h1>Sync &amp; Integrations</h1><p class="muted">Send your schedule to Google Calendar, add Zoom links and share to Google Classroom.</p></div>
+    </div>
+
+    <div class="card">
+      <h2>📆 Google Calendar</h2>
+      <div class="row">
+        <div class="field"><label>Semester starts (first week)</label><input type="date" id="startDate"></div>
+        <div class="field"><label>Weeks to repeat</label><input type="number" id="weeks" min="1" max="30" value="16"></div>
+        <div class="field"><label>Include</label><div class="checks"><label><input type="checkbox" id="incClasses" checked> Classes</label><label><input type="checkbox" id="incPersonal" checked> Personal / scanned</label></div></div>
+      </div>
+      <div class="toolbar">
+        <button class="btn" id="icsBtn">⬇ Download .ics (all)</button>
+        <a class="btn secondary" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/u/0/r/settings/export">Open Google Calendar import</a>
+      </div>
+      <p class="muted small">Download the .ics file, then in Google Calendar choose <b>Settings → Import &amp; export → Import</b>. Or add items one by one below — each opens Google Calendar with the event filled in and weekly repeat.</p>
+      <div class="table-wrap" id="items">Loading…</div>
+    </div>
+
+    <div class="grid cols-2">
+      <div class="card">
+        <h2>🎥 Zoom</h2>
+        <p class="muted small" id="zoomNote"></p>
+        <div class="toolbar"><a class="btn secondary sm" target="_blank" rel="noopener" href="https://zoom.us/meeting/schedule">Create a Zoom meeting</a></div>
+        <div id="zoomList">Loading…</div>
+      </div>
+      <div class="card">
+        <h2>🏷️ Google Classroom</h2>
+        <p class="muted small" id="gcNote"></p>
+        <div class="toolbar">
+          <button class="btn secondary sm" id="shareBtn">Share to Classroom</button>
+          <button class="btn secondary sm" id="copyBtn">📋 Copy schedule as announcement</button>
+        </div>
+        <div id="gcList">Loading…</div>
+      </div>
+    </div>
+  </main>
+  <script src="../js/api.js"></script>
+  <script src="../js/ui.js"></script>
+  <script src="../js/layout.js"></script>
+  <script src="../js/ics.js"></script>
+  <script src="../js/sync.js"></script>
+  <script src="../js/chatbot.js"></script>
+</body>
+</html>

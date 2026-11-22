@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Classrooms – Smart Class Scheduler</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-page="classrooms" data-roles="student,faculty,admin">
+  <main id="content">
+    <div class="page-head">
+      <div><h1>Classrooms</h1><p class="muted">Check availability, capacity and equipment before you book.</p></div>
+      <div class="toolbar"><button class="btn" id="addRoom">+ Add room</button></div>
+    </div>
+
+    <div class="card">
+      <h2>Availability checker</h2>
+      <div class="row">
+        <div class="field"><label>Day</label><select id="aDay"></select></div>
+        <div class="field"><label>Start</label><input type="time" id="aStart"></div>
+        <div class="field"><label>End</label><input type="time" id="aEnd"></div>
+        <div class="field"><label>Students (min. capacity)</label><input type="number" id="aCap" min="0" placeholder="e.g. 35"></div>
+      </div>
+      <div class="field"><label>Required equipment</label><div class="checks" id="aEquip"></div></div>
+      <button class="btn" id="checkBtn">Find rooms</button>
+      <div id="results" style="margin-top:1rem"></div>
+    </div>
+
+    <div class="card">
+      <div class="toolbar"><h2 style="margin:0">Room timetable</h2><select id="tRoom"></select></div>
+      <div id="roomTT"><div class="empty">Choose a room to see when it is used.</div></div>
+    </div>
+
+    <div class="card">
+      <h2>All rooms</h2>
+      <div class="table-wrap" id="roomList">Loading…</div>
+    </div>
+  </main>
+  <script src="../js/api.js"></script>
+  <script src="../js/ui.js"></script>
+  <script src="../js/layout.js"></script>
+  <script src="../js/classrooms.js"></script>
+  <script src="../js/chatbot.js"></script>
+</body>
+</html>

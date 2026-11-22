@@ -1,0 +1,32 @@
+/* API client: talks to the Express/MySQL backend and keeps the login session */
+const API = {
+  base: (['5500', '5501', '8080'].includes(location.port) || location.protocol === 'file:') ? 'http://localhost:3000/api' : '/api',
+  token: () => localStorage.getItem('ss_token'),
+  user: () => { try { return JSON.parse(localStorage.getItem('ss_user')); } catch { return null; } },
+  save(token, user) { localStorage.setItem('ss_token', token); localStorage.setItem('ss_user', JSON.stringify(user)); },
+  clear() { localStorage.removeItem('ss_token'); localStorage.removeItem('ss_user'); },
+  loginUrl: () => (location.pathname.includes('/pages/') ? 'login.html' : 'pages/login.html'),
+
+  async req(method, url, body) {
+    const headers = { 'Content-Type': 'application/json' };
+    if (API.token()) headers.Authorization = 'Bearer ' + API.token();
+    let res;
+    try {
+      res = await fetch(API.base + url, { method, headers, body: body ? JSON.stringify(body) : undefined });
+    } catch {
+      throw Object.assign(new Error('Cannot reach the server. Is it running? (npm start)'), { status: 0 });
+    }
+    const data = await res.json().catch(() => ({}));
+    if (res.status === 401 && API.token()) {           // expired session
+      API.clear();
+      location.replace(API.loginUrl());
+    }
+    if (!res.ok) throw Object.assign(new Error(data.error || 'Request failed'), { status: res.status, data });
+    return data;
+  },
+  get: u => API.req('GET', u),
+  post: (u, b) => API.req('POST', u, b || {}),
+  put: (u, b) => API.req('PUT', u, b || {}),
+  del: u => API.req('DELETE', u),
+  logout() { API.clear(); location.href = API.loginUrl(); }
+};
