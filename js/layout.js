@@ -37,12 +37,13 @@ const Layout = {
     shell.innerHTML = `
       <aside class="sidebar" id="sidebar">
         <div class="brand"><span class="logo">🎓</span>Class Scheduler</div>
+        <button class="sidebar-close-btn" id="closeMenuBtn" type="button" aria-label="Close navigation" aria-controls="sidebar">× Close menu</button>
         <nav class="nav">${nav}</nav>
         <div class="side-foot"><div>${esc(user.name)}</div><div class="muted">${esc(user.email)}</div></div>
       </aside>
       <div class="main">
         <header class="topbar">
-          <button class="menu-btn" id="menuBtn" aria-label="Menu">☰</button>
+          <button class="menu-btn" id="menuBtn" type="button" aria-label="Hide navigation" aria-controls="sidebar" aria-expanded="true">☰</button>
           <span class="mode-pill ${user.role}">${Layout.modeName[user.role]}</span>
           <div class="spacer"></div>
           <span class="avatar" title="${esc(user.name)}">${esc(user.name.trim()[0].toUpperCase())}</span>
@@ -52,8 +53,25 @@ const Layout = {
       </div>`;
     body.prepend(shell);
     $('#pageHost').appendChild(content);
-    $('#menuBtn').onclick = () => $('#sidebar').classList.toggle('open');
-    $('#pageHost').onclick = () => $('#sidebar').classList.remove('open');
+    const sidebar = $('#sidebar'), menuBtn = $('#menuBtn'), closeMenuBtn = $('#closeMenuBtn');
+    const mobileNav = window.matchMedia('(max-width: 820px)');
+    let isMobile = mobileNav.matches, navOpen = !isMobile;
+    const setNavOpen = open => {
+      navOpen = open;
+      shell.classList.toggle('nav-collapsed', !isMobile && !navOpen);
+      sidebar.classList.toggle('open', isMobile && navOpen);
+      menuBtn.setAttribute('aria-expanded', String(navOpen));
+      menuBtn.setAttribute('aria-label', navOpen ? 'Hide navigation' : 'Show navigation');
+    };
+    setNavOpen(navOpen);
+    menuBtn.onclick = () => setNavOpen(!navOpen);
+    closeMenuBtn.onclick = () => setNavOpen(false);
+    $('#pageHost').onclick = () => { if (isMobile) setNavOpen(false); };
+    window.addEventListener('resize', () => {
+      if (mobileNav.matches === isMobile) return;
+      isMobile = mobileNav.matches;
+      setNavOpen(!isMobile);
+    });
     $('#logoutBtn').onclick = () => API.logout();
     API.get('/auth/me').then(u => API.save(API.token(), u)).catch(() => {});   // refresh profile / detect deactivated account
   }

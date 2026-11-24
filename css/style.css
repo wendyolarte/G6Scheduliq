@@ -488,6 +488,9 @@ td.actions {
   flex-shrink: 0;
   z-index: 30;
 }
+.app.nav-collapsed .sidebar {
+  display: none;
+}
 .brand {
   padding: 1.1rem 1.25rem;
   font-weight: 800;
@@ -496,6 +499,9 @@ td.actions {
   display: flex;
   gap: 0.6rem;
   align-items: center;
+}
+.sidebar-close-btn {
+  display: none;
 }
 .brand .logo {
   width: 34px;
@@ -562,11 +568,17 @@ td.actions {
   flex: 1;
 }
 .menu-btn {
-  display: none;
+  display: block;
   background: none;
   border: 0;
   font-size: 1.5rem;
   cursor: pointer;
+  color: inherit;
+  border-radius: 8px;
+  padding: 0.25rem 0.4rem;
+}
+.menu-btn:hover {
+  background: var(--primary-l);
 }
 .mode-pill {
   background: var(--primary-l);
@@ -1135,8 +1147,16 @@ td.actions {
     left: 0;
     box-shadow: 0 0 0 100vw rgba(0, 0, 0, 0.4);
   }
-  .menu-btn {
+  .sidebar-close-btn {
     display: block;
+    align-self: flex-end;
+    margin: 0.25rem 0.75rem 0;
+    padding: 0.35rem 0.6rem;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 8px;
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
   }
   .page {
     padding: 1rem;
