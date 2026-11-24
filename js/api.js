@@ -23,11 +23,10 @@ const API = {
       location.replace(API.loginUrl());
     }
     if (!res.ok) {
-      const error = data && data.error
-        ? data.error
-        : res.status === 404
-          ? 'API endpoint not found. Deploy the Express backend and set PRODUCTION_API_BASE.'
-          : 'Request failed';
+      let error = 'Request failed';
+      if (data && data.error) error = data.error;
+      else if (data === null) error = 'The API returned a non-JSON response. Check PRODUCTION_API_BASE and confirm the Express backend is running.';
+      else if (res.status === 404) error = 'API endpoint not found. Deploy the Express backend and set PRODUCTION_API_BASE.';
       throw Object.assign(new Error(error), { status: res.status, data });
     }
     return data;
