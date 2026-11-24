@@ -1,6 +1,7 @@
 /* API client: talks to the Express/MySQL backend and keeps the login session */
+const PRODUCTION_API_BASE = '';
 const API = {
-  base: (['5500', '5501', '8080'].includes(location.port) || location.protocol === 'file:') ? 'http://localhost:3000/api' : '/api',
+  base: PRODUCTION_API_BASE || ((['5500', '5501', '8080'].includes(location.port) || location.protocol === 'file:') ? 'http://localhost:3000/api' : '/api'),
   token: () => localStorage.getItem('ss_token'),
   user: () => { try { return JSON.parse(localStorage.getItem('ss_user')); } catch { return null; } },
   save(token, user) { localStorage.setItem('ss_token', token); localStorage.setItem('ss_user', JSON.stringify(user)); },
@@ -16,12 +17,19 @@ const API = {
     } catch {
       throw Object.assign(new Error('Cannot reach the server. Is it running? (npm start)'), { status: 0 });
     }
-    const data = await res.json().catch(() => ({}));
+    const data = await res.json().catch(() => null);
     if (res.status === 401 && API.token()) {           // expired session
       API.clear();
       location.replace(API.loginUrl());
     }
-    if (!res.ok) throw Object.assign(new Error(data.error || 'Request failed'), { status: res.status, data });
+    if (!res.ok) {
+      const error = data && data.error
+        ? data.error
+        : res.status === 404
+          ? 'API endpoint not found. Deploy the Express backend and set PRODUCTION_API_BASE.'
+          : 'Request failed';
+      throw Object.assign(new Error(error), { status: res.status, data });
+    }
     return data;
   },
   get: u => API.req('GET', u),
