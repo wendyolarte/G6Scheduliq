@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (!Layout.ok) return;
   const u = API.user(), student = u.role === 'student';
   let courses = [], equipment = [], faculty = [];
-  $('#subtitle').textContent = student ? 'Enrol in the courses you take. Your timetable is built from them.' : 'Courses drive automatic scheduling: size, sessions, duration and equipment.';
+  $('#subtitle').textContent = student ? 'Enroll in the courses you take. Your timetable is built from them.' : 'Courses drive automatic scheduling: size, sessions, duration and equipment.';
   if (student) $('#addBtn').classList.add('hidden');
   $('#mineLbl').textContent = student ? 'Only enrolled' : 'Only mine';
   if (u.role === 'admin') $('#mineWrap').classList.add('hidden');
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         <td>${c.expected_students}<div class="muted small">${c.enrolled_count} enrolled</div></td><td>${c.sessions_per_week}× ${c.duration_min} min</td>
         <td>${c.equipment.map(e => `<span class="chip">${esc(e.name)}</span>`).join('') || '<span class="muted small">none</span>'}</td>
         <td class="actions">${student
-          ? (c.is_enrolled ? `<button class="btn secondary sm" data-drop="${c.id}">Drop</button>` : `<button class="btn sm" data-enroll="${c.id}">Enrol</button>`)
+          ? (c.is_enrolled ? `<button class="btn secondary sm" data-drop="${c.id}">Drop</button>` : `<button class="btn sm" data-enroll="${c.id}">Enroll</button>`)
           : (manage(c) ? `<button class="btn secondary sm" data-edit="${c.id}">Edit</button> <button class="btn danger sm" data-del="${c.id}">Delete</button>` : '')}</td></tr>`).join('')}</tbody></table>`;
     $$('[data-enroll]').forEach(b => b.onclick = () => act(() => API.post(`/courses/${b.dataset.enroll}/enroll`), 'Enrolled'));
     $$('[data-drop]').forEach(b => b.onclick = () => act(() => API.del(`/courses/${b.dataset.drop}/enroll`), 'Course dropped'));

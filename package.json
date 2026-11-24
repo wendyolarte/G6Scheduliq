@@ -1,5 +1,5 @@
 {
-  "name": "smart-class-scheduler",
+  "name": "Scheduliq",
   "version": "1.0.0",
   "description": "Smart class scheduling system with student, faculty/staff and admin modes (Node.js + Express + MySQL)",
   "main": "server/server.js",

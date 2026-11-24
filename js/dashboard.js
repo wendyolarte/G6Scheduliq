@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     admin: 'Admin Mode – review schedules, manage rooms and users.'
   }[u.role];
 
-  const quick = { student: [['courses.html', 'Enrol in courses'], ['scan.html', '📷 Scan timetable'], ['sync.html', '🔗 Sync calendar']],
+  const quick = { student: [['courses.html', 'Enroll in courses'], ['scan.html', '📷 Scan timetable'], ['sync.html', '🔗 Sync calendar']],
     faculty: [['generator.html', '⚙️ Auto-generate'], ['schedule.html', 'My sessions'], ['approvals.html', 'Submit for approval']],
     admin: [['approvals.html', '✅ Review approvals'], ['admin.html', '🛡️ Admin panel'], ['conflicts.html', '⚠️ Conflicts']] }[u.role];
   $('#quick').innerHTML = quick.map(([h, l], i) => `<a class="btn ${i ? 'secondary' : ''} sm" href="${h}">${l}</a>`).join('');
