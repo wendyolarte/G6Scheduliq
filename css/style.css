@@ -1017,6 +1017,33 @@ td.actions {
   font-size: 1.7rem;
   margin-bottom: 0.4rem;
 }
+.feature ul {
+  padding-left: 1.25rem;
+}
+.feature li + li {
+  margin-top: 0.35rem;
+}
+.faq-list {
+  display: grid;
+  gap: 0.65rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.faq-item {
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+  box-shadow: var(--shadow);
+}
+.faq-item summary {
+  font-weight: 700;
+  cursor: pointer;
+}
+.faq-item p {
+  margin: 0.75rem 0 0;
+  color: var(--muted);
+}
 .alt-bg {
   background: var(--card);
   border-block: 1px solid var(--border);

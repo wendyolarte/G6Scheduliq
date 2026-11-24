@@ -25,3 +25,7 @@ GitHub Pages can keep hosting the frontend, but the Express API and MySQL databa
 5. In `js/api.js`, set `PRODUCTION_API_BASE` to `https://<your-domain>/api` (no trailing slash), then publish that frontend change to GitHub Pages. Keep it empty for same-origin deployments; local development on VS Code Live Server continues to use `http://localhost:3000/api`.
 
 The API enables CORS for the GitHub Pages frontend. Do not use `localhost` as the production API URL: it refers to the visitor's own computer, not the Railway service.
+
+## Demo walkthrough
+
+For a presenter script that follows registration and login from the website click to the corresponding frontend, API, and database code, see [docs/demo-auth-walkthrough.md](docs/demo-auth-walkthrough.md).

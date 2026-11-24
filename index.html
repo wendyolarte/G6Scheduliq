@@ -3,8 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Scheduliq</title>
-  <meta name="description" content="Plan, optimise and approve class schedules with room, capacity and equipment awareness.">
+  <title>Scheduliq | Class Scheduling</title>
+  <meta name="description" content="Organize courses and rooms, generate schedule options, review conflicts, and manage approvals with Scheduliq.">
+  <meta property="og:title" content="Scheduliq | Class Scheduling">
+  <meta property="og:description" content="A class scheduling project for organizing courses, rooms, schedule options, and approvals.">
+  <meta property="og:type" content="website">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -12,34 +15,57 @@
     <a href="index.html" class="brand" style="color:var(--text)"><span class="logo">🎓</span>Scheduliq</a>
     <nav class="links">
       <a class="plain" href="#features">Features</a>
+      <a class="plain" href="#how-it-works">How it works</a>
       <a class="plain" href="#modes">Modes</a>
-      <a class="plain" href="#integrations">Integrations</a>
+      <a class="plain" href="#faq">FAQ</a>
       <a id="navLogin" class="btn secondary sm" href="pages/login.html">Log in</a>
       <a id="navSignup" class="btn sm" href="pages/register.html">Sign up</a>
     </nav>
   </header>
 
   <section class="hero">
-    <h1>Class schedules that build themselves — and never clash</h1>
-    <p>Generate conflict-free timetables that respect room capacity, equipment and everyone's availability. Then sync them to Google Calendar, Zoom and Google Classroom.</p>
+    <h1>Plan and review class schedules with confidence</h1>
+    <p>Organize courses and rooms, generate schedule options, and check capacity, equipment, and conflicts. Review proposed schedules before they are approved.</p>
     <a class="btn lg" style="background:#fff;color:var(--primary-d)" id="heroCta" href="pages/register.html">Get started free</a>
     <a class="btn lg secondary" href="pages/login.html">I already have an account</a>
   </section>
 
+  <section class="section" id="how-it-works">
+    <h2>A clear path from course setup to approved schedule</h2>
+    <p class="sub">Scheduliq helps organize the work; staff still review the results and verify campus information.</p>
+    <div class="grid cols-3">
+      <article class="feature">
+        <div class="ic">①</div>
+        <h3>Set up the details</h3>
+        <p class="muted small">Add courses, instructors, class size, required equipment, rooms, and availability. Accurate input makes schedule suggestions more useful.</p>
+      </article>
+      <article class="feature">
+        <div class="ic">②</div>
+        <h3>Generate and check</h3>
+        <p class="muted small">Create candidate time slots and rooms, review detected conflicts, and compare alternative suggestions before choosing a schedule.</p>
+      </article>
+      <article class="feature">
+        <div class="ic">③</div>
+        <h3>Review and share</h3>
+        <p class="muted small">Faculty can submit schedules for approval. Students see approved schedules, and users can export calendar events for manual import.</p>
+      </article>
+    </div>
+  </section>
+
   <section class="section" id="features">
     <h2>Everything you need to schedule with confidence</h2>
-    <p class="sub">Ten built-in features cover the full scheduling lifecycle.</p>
+    <p class="sub">Tools support the scheduling lifecycle, from room selection to review.</p>
     <div class="auto-grid">
-      <div class="feature"><div class="ic">🗂️</div><h3>Scheduling Information Management</h3><p class="muted small">Courses, instructors, rooms and sessions organised and stored securely in MySQL.</p></div>
-      <div class="feature"><div class="ic">⚙️</div><h3>Automated Schedule Generation</h3><p class="muted small">Create a full class timetable in one click.</p></div>
-      <div class="feature"><div class="ic">🎯</div><h3>Constraint Optimization</h3><p class="muted small">Tries many combinations and keeps the best fit for your requirements.</p></div>
+      <div class="feature"><div class="ic">🗂️</div><h3>Scheduling Information Management</h3><p class="muted small">Organize courses, instructors, rooms, and schedule sessions in the configured MySQL database.</p></div>
+      <div class="feature"><div class="ic">⚙️</div><h3>Automated Schedule Generation</h3><p class="muted small">Generate candidate class schedules from configured courses, rooms, and constraints.</p></div>
+      <div class="feature"><div class="ic">🎯</div><h3>Constraint Optimization</h3><p class="muted small">A heuristic search compares candidate schedules and returns a high-scoring option; review is still required.</p></div>
       <div class="feature"><div class="ic">🏫</div><h3>Classroom Availability</h3><p class="muted small">See which rooms are free for any day and time.</p></div>
-      <div class="feature"><div class="ic">👥</div><h3>Classroom Capacity</h3><p class="muted small">Rooms are matched to class size so nobody is left standing.</p></div>
-      <div class="feature"><div class="ic">🖥️</div><h3>Equipment Aware</h3><p class="muted small">Labs, projectors and sound systems are matched to what each course needs.</p></div>
-      <div class="feature"><div class="ic">⚠️</div><h3>Schedule Conflict Detection</h3><p class="muted small">Instantly spots room, instructor and student overlaps.</p></div>
-      <div class="feature"><div class="ic">💡</div><h3>Alternative Scheduling Suggestions</h3><p class="muted small">Get other good slots whenever something clashes.</p></div>
-      <div class="feature"><div class="ic">📅</div><h3>Schedule Viewing &amp; Management</h3><p class="muted small">Weekly timetable and list views with easy editing.</p></div>
-      <div class="feature"><div class="ic">✅</div><h3>Schedule Review &amp; Approval</h3><p class="muted small">Faculty submit, admins review and approve.</p></div>
+      <div class="feature"><div class="ic">👥</div><h3>Classroom Capacity</h3><p class="muted small">Compare expected class size with each room’s recorded capacity.</p></div>
+      <div class="feature"><div class="ic">🖥️</div><h3>Equipment Aware</h3><p class="muted small">Use recorded room and course equipment requirements when checking room fit.</p></div>
+      <div class="feature"><div class="ic">⚠️</div><h3>Schedule Conflict Detection</h3><p class="muted small">Highlights room and instructor overlaps, plus shared-student conflicts for review.</p></div>
+      <div class="feature"><div class="ic">💡</div><h3>Alternative Scheduling Suggestions</h3><p class="muted small">Compare other available time slots and rooms when adjusting a schedule.</p></div>
+      <div class="feature"><div class="ic">📅</div><h3>Schedule Viewing &amp; Management</h3><p class="muted small">View schedules in weekly timetable and list formats.</p></div>
+      <div class="feature"><div class="ic">✅</div><h3>Schedule Review &amp; Approval</h3><p class="muted small">Faculty can submit schedules for admin review and approval.</p></div>
     </div>
   </section>
 
@@ -55,18 +81,96 @@
     </section>
   </div>
 
-  <section class="section" id="integrations">
-    <h2>Works with the tools you already use</h2>
-    <p class="sub">Keep your calendar, meetings and classes in sync.</p>
-    <div class="grid cols-4">
-      <div class="feature center"><div class="ic">📆</div><h3>Google Calendar</h3><p class="muted small">One-click add or full .ics export.</p></div>
-      <div class="feature center"><div class="ic">🎥</div><h3>Zoom</h3><p class="muted small">Attach join links to every course.</p></div>
-      <div class="feature center"><div class="ic">🏷️</div><h3>Google Classroom</h3><p class="muted small">Share schedules and course links.</p></div>
-      <div class="feature center"><div class="ic">📷</div><h3>Scan a Timetable</h3><p class="muted small">Snap a photo and it becomes calendar events.</p></div>
+  <section class="section" id="campus-tour">
+    <h2>Explore the campus</h2>
+    <p class="sub">Use the university’s campus reference alongside Scheduliq’s room finder.</p>
+    <div class="grid cols-2">
+      <article class="feature">
+        <div class="ic">🧭</div>
+        <h3>USTP Cagayan de Oro 360 Virtual Tour</h3>
+        <p class="muted small">Open the virtual tour hosted on the official USTP website. It is an external campus resource, separate from Scheduliq.</p>
+        <a class="btn secondary" href="https://www.ustp.edu.ph/cdeo/ustp-cagayan-de-oro-360-virtual-tour/" target="_blank" rel="noopener noreferrer">Open the official 360 tour</a>
+      </article>
+      <article class="feature">
+        <div class="ic">🏫</div>
+        <h3>Campus map and room finder</h3>
+        <p class="muted small">Browse the supplied campus map, select buildings, and inspect sample floor and room layouts. Sample room details are illustrative and must be verified.</p>
+        <a class="btn secondary" href="pages/campus.html">Open campus map</a>
+      </article>
     </div>
   </section>
 
-  <footer class="footer">Scheduliq &middot; Built with HTML, CSS, JavaScript, Node.js and MySQL</footer>
+  <section class="section" id="integrations">
+    <h2>Calendar and classroom workflows</h2>
+    <p class="sub">Use calendar exports and saved provider links; provider accounts are not connected to Scheduliq.</p>
+    <div class="grid cols-4">
+      <div class="feature center"><div class="ic">📆</div><h3>Google Calendar</h3><p class="muted small">Add individual event links or export an .ics file. Changes do not sync back automatically.</p></div>
+      <div class="feature center"><div class="ic">🎥</div><h3>Zoom</h3><p class="muted small">Save and open meeting links. Scheduliq does not create Zoom meetings.</p></div>
+      <div class="feature center"><div class="ic">🏷️</div><h3>Google Classroom</h3><p class="muted small">Copy or share schedule details manually; schedules are not published automatically.</p></div>
+      <div class="feature center"><div class="ic">📷</div><h3>Scan a Timetable</h3><p class="muted small">Turn recognized timetable details into personal events for review.</p></div>
+    </div>
+  </section>
+
+  <section class="section" id="trust">
+    <h2>Transparent about data and limitations</h2>
+    <p class="sub">These notes describe the current implementation; they are not a formal privacy policy.</p>
+    <div class="grid cols-2">
+      <article class="feature">
+        <h3>Accounts and session handling</h3>
+        <ul class="muted small">
+          <li>Passwords are stored as bcrypt hashes, not as readable passwords.</li>
+          <li>The sign-in token expires after eight hours and is kept in browser storage so the app can maintain the session.</li>
+          <li>Account profiles and scheduling records are stored in the MySQL database configured for the service.</li>
+        </ul>
+        <p class="muted small">Use a test account for demonstrations and sign out on shared devices. Do not enter sensitive information that the scheduling workflow does not need.</p>
+      </article>
+      <article class="feature">
+        <h3>Review before relying on a schedule</h3>
+        <ul class="muted small">
+          <li>Schedule generation uses heuristic search and does not guarantee a globally optimal timetable.</li>
+          <li>Conflict results and suggested alternatives should be reviewed by faculty and administrators.</li>
+          <li>Campus floor layouts and sample room details are not verified official floor plans.</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" id="faq">
+    <h2>Frequently asked questions</h2>
+    <p class="sub">Quick answers about accounts, schedules, and campus information.</p>
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary>Who can create an account?</summary>
+        <p>Students and faculty/staff can register. Admin accounts are created by an existing administrator and cannot be self-registered from the public sign-up form.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Does the schedule generator guarantee that every conflict is eliminated?</summary>
+        <p>No. It searches for high-scoring schedule options and checks configured constraints. Review the results and conflict warnings before a schedule is approved.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Does Scheduliq automatically sync my Google, Zoom, or Classroom account?</summary>
+        <p>No. Calendar export and event links are user-initiated, and changes do not sync back automatically. Zoom and Classroom links and sharing are managed manually.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Are the campus floors and room capacities official?</summary>
+        <p>The supplied map is shown as a campus reference. Sample floors, rooms, capacities, and equipment are illustrative placeholders; verify them with campus staff before relying on them.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How are passwords handled?</summary>
+        <p>The backend stores bcrypt password hashes and checks sign-in passwords against those hashes. Do not share your password or display it in a public demo.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Where can I get account help?</summary>
+        <p>Contact the Scheduliq site administrator who provided your account. The built-in assistant can help with general navigation questions.</p>
+      </details>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>Scheduliq &middot; Built with HTML, CSS, JavaScript, Node.js, Express, and MySQL</p>
+    <p class="small">Scheduliq is a separate scheduling application. Linking to the USTP virtual tour does not imply university endorsement.</p>
+    <p class="small"><a href="#how-it-works">How it works</a> · <a href="#faq">FAQ</a> · <a href="https://www.ustp.edu.ph/cdeo/ustp-cagayan-de-oro-360-virtual-tour/" target="_blank" rel="noopener noreferrer">USTP CDO 360 Virtual Tour</a></p>
+  </footer>
 
   <script src="js/api.js"></script>
   <script src="js/ui.js"></script>
