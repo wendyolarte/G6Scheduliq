@@ -1,6 +1,6 @@
--- Smart Class Scheduler - MySQL schema
-CREATE DATABASE IF NOT EXISTS smart_scheduler CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE smart_scheduler;
+-- Scheduliq - MySQL schema
+CREATE DATABASE IF NOT EXISTS Scheduliq CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE Scheduliq;
 
 CREATE TABLE IF NOT EXISTS users (
   id            INT AUTO_INCREMENT PRIMARY KEY,

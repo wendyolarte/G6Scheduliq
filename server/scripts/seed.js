@@ -18,10 +18,10 @@ const ROOMS = [
   ['R302', 'Annex', 25, ['Whiteboard']]
 ];
 const FACULTY = [
-  ['Dr. Maria Santos', 'maria.santos@school.edu', 'Computer Science'],
-  ['Prof. John Reyes', 'john.reyes@school.edu', 'Mathematics'],
-  ['Dr. Ana Cruz', 'ana.cruz@school.edu', 'Sciences'],
-  ['Engr. Luis Tan', 'luis.tan@school.edu', 'Information Technology']
+  ['Dr. Maria Santos', 'maria.santos@1.ustp.edu.ph', 'Computer Science'],
+  ['Prof. John Reyes', 'john.reyes@1.ustp.edu.ph', 'Mathematics'],
+  ['Dr. Ana Cruz', 'ana.cruz@1.ustp.edu.ph', 'Sciences'],
+  ['Engr. Luis Tan', 'luis.tan@1.ustp.edu.ph', 'Information Technology']
 ];
 const STUDENTS = ['Alex Rivera', 'Bianca Lim', 'Carlo Mendoza', 'Dana Flores', 'Ethan Go', 'Faith Bautista',
   'Gabriel Ong', 'Hannah Uy', 'Ian Castillo', 'Julia Navarro', 'Kevin Dizon', 'Lara Aquino'];
@@ -56,7 +56,7 @@ const COURSES = [
   }
   const stu = [];
   for (let i = 0; i < STUDENTS.length; i++) {
-    const email = `student${i + 1}@school.edu`;
+    const email = `student${i + 1}@1.ustp.edu.ph`;
     await pool.query("INSERT IGNORE INTO users(name,email,password_hash,role,department,school_id) VALUES(?,?,?,'student','Computer Science',?)", [STUDENTS[i], email, hash, `2026-${String(1001 + i)}`]);
     stu.push((await pool.query('SELECT id FROM users WHERE email=?', [email]))[0][0].id);
   }
@@ -75,8 +75,8 @@ const COURSES = [
     }
   }
   console.log('Demo data loaded.');
-  console.log('  Admin:    ' + (process.env.ADMIN_EMAIL || 'admin@school.edu') + ' / ' + (process.env.ADMIN_PASSWORD || 'Admin@12345'));
-  console.log('  Faculty:  maria.santos@school.edu / Password123!');
-  console.log('  Student:  student1@school.edu / Password123!');
+  console.log('  Admin:    ' + (process.env.ADMIN_EMAIL || 'admin@1.ustp.edu.ph') + ' / ' + (process.env.ADMIN_PASSWORD || 'Admin@12345'));
+  console.log('  Faculty:  juan.delacruz@1.ustp.edu.ph / Password123!');
+  console.log('  Student:  student1@1.ustp.edu.ph / Password123!');
   await pool.end();
 })().catch(e => { console.error('Seed failed:', e.message); process.exit(1); });

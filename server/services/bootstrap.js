@@ -18,7 +18,7 @@ async function ensureSchema() {
 
 // Creates the admin account from the environment variables if it does not exist yet.
 async function ensureAdmin() {
-  const email = (process.env.ADMIN_EMAIL || 'admin@school.edu').toLowerCase();
+  const email = (process.env.ADMIN_EMAIL || 'admin@gmail.com').toLowerCase();
   const [rows] = await pool.query('SELECT id FROM users WHERE email=?', [email]);
   if (rows.length) return;
   const hash = await bcrypt.hash(process.env.ADMIN_PASSWORD || 'Admin@12345', 10);
