@@ -23,8 +23,16 @@ CREATE TABLE IF NOT EXISTS rooms (
   id           INT AUTO_INCREMENT PRIMARY KEY,
   name         VARCHAR(50) NOT NULL UNIQUE,
   building     VARCHAR(80) NULL,
+  floor        VARCHAR(40) NULL,
+  room_type    VARCHAR(40) NOT NULL DEFAULT 'Classroom',
   capacity     INT NOT NULL,
-  is_available TINYINT(1) NOT NULL DEFAULT 1
+  is_available TINYINT(1) NOT NULL DEFAULT 1,
+  is_sample    TINYINT(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS app_migrations (
+  name       VARCHAR(100) PRIMARY KEY,
+  applied_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS room_equipment (

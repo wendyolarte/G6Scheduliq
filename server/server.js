@@ -31,6 +31,7 @@ app.use('/api', (req, res) => res.status(404).json({ error: 'Not found' }));
 app.use('/css', express.static(path.join(root, 'css')));
 app.use('/js', express.static(path.join(root, 'js')));
 app.use('/pages', express.static(path.join(root, 'pages')));
+app.use('/assets', express.static(path.join(root, 'assets')));
 app.get('/', (req, res) => res.sendFile(path.join(root, 'index.html')));
 
 app.use((err, req, res, next) => {

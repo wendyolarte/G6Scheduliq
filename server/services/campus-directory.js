@@ -1,0 +1,72 @@
+const BUILDINGS = [
+  { number: 1, name: 'Arts and Culture Building', mapX: 92.7, mapY: 37.8 },
+  { number: 2, name: 'Guidance and Testing Center', mapX: 89.3, mapY: 36.5 },
+  { number: 3, name: 'College of Medicine', mapX: 87, mapY: 42.3 },
+  { number: 5, name: 'Old Engineering Building', mapX: 75.3, mapY: 47.1 },
+  { number: 9, name: 'ICT Building', mapX: 71.5, mapY: 36 },
+  { number: 10, name: 'Administration Building', mapX: 68.4, mapY: 41.8 },
+  { number: 14, name: 'Finance and Accounting / Senior High School Building', mapX: 59.6, mapY: 38.8 },
+  { number: 15, name: 'Gymnasium Lobby', mapX: 52.3, mapY: 39.7 },
+  { number: 16, name: 'Gymnasium / Memorial Hall', mapX: 56.4, mapY: 46.1 },
+  { number: 18, name: 'Culinary Building', mapX: 66.3, mapY: 54.4 },
+  { number: 19, name: 'NSTP Building', mapX: 66.7, mapY: 61.7 },
+  { number: 20, name: 'Cafeteria', mapX: 58.1, mapY: 59.4 },
+  { number: 21, name: 'Guard House', mapX: 50.7, mapY: 64.6 },
+  { number: 23, name: 'Learning Resource Center', mapX: 37, mapY: 27.7 },
+  { number: 24, name: "Girl's Trade Building", mapX: 29.2, mapY: 35.3 },
+  { number: 25, name: 'Food Innovation Center (Building 25)', displayName: 'Food Innovation Center' },
+  { number: 26, name: 'Food Innovation Center (Building 26)', displayName: 'Food Innovation Center' },
+  { number: 27, name: 'University Health Center / Office of Student Affairs', mapX: 35.3, mapY: 41.7 },
+  { number: 28, name: 'Old Science Building', mapX: 40, mapY: 43.6 },
+  { number: 35, name: 'Old Education Building', mapX: 26.3, mapY: 45.3 },
+  { number: 36, name: 'Old Student Center (Building 36)', displayName: 'Old Student Center', mapX: 23.4, mapY: 38.5 },
+  { number: 40, name: 'Old Student Center (Building 40)', displayName: 'Old Student Center' },
+  { number: 41, name: 'Science Complex', mapX: 43.5, mapY: 49.2 },
+  { number: 42, name: 'Engineering Complex I (Right Wing)', mapX: 56.7, mapY: 65.2 },
+  { number: 43, name: 'Engineering Complex I (Left Wing)', mapX: 52.5, mapY: 65.5 },
+  { number: 44, name: 'Student Center and Education Complex', mapX: 38.3, mapY: 60 },
+  { number: 45, name: 'Mechanical Laboratory Shop', mapX: 16.3, mapY: 30.6 },
+  { number: 47, name: 'Technology Building', mapX: 28.3, mapY: 23.7 },
+  { number: 50, name: 'Faculty Learning Resource Center' },
+  { number: 51, name: 'Dormitory', mapX: 44.4, mapY: 14.8 },
+  { number: 52, name: 'FAB Lab Building', mapX: 19.3, mapY: 24.1 }
+];
+
+const ROOM_TYPES = [
+  'Classroom',
+  'Computer Lab',
+  'Science Lab',
+  'Lecture Hall',
+  'Activity Room',
+  'Office',
+  'Other'
+];
+
+const SAMPLE_ROOMS = [
+  { name: 'ICT-G01', building: 'ICT Building', floor: 'Ground Floor', room_type: 'Classroom', capacity: 30 },
+  { name: 'ICT-G02', building: 'ICT Building', floor: 'Ground Floor', room_type: 'Computer Lab', capacity: 28 },
+  { name: 'ICT-101', building: 'ICT Building', floor: 'First Floor', room_type: 'Classroom', capacity: 35 },
+  { name: 'ICT-102', building: 'ICT Building', floor: 'First Floor', room_type: 'Computer Lab', capacity: 30 },
+  { name: 'ICT-201', building: 'ICT Building', floor: 'Second Floor', room_type: 'Computer Lab', capacity: 30 },
+  { name: 'OSB-G01', building: 'Old Science Building', floor: 'Ground Floor', room_type: 'Classroom', capacity: 30 },
+  { name: 'OSB-G02', building: 'Old Science Building', floor: 'Ground Floor', room_type: 'Science Lab', capacity: 24 },
+  { name: 'OSB-101', building: 'Old Science Building', floor: 'First Floor', room_type: 'Classroom', capacity: 32 },
+  { name: 'OSB-102', building: 'Old Science Building', floor: 'First Floor', room_type: 'Science Lab', capacity: 24 },
+  { name: 'SC-G01', building: 'Science Complex', floor: 'Ground Floor', room_type: 'Classroom', capacity: 35 },
+  { name: 'SC-G02', building: 'Science Complex', floor: 'Ground Floor', room_type: 'Science Lab', capacity: 28 },
+  { name: 'SC-101', building: 'Science Complex', floor: 'First Floor', room_type: 'Classroom', capacity: 35 },
+  { name: 'SC-102', building: 'Science Complex', floor: 'First Floor', room_type: 'Science Lab', capacity: 28 },
+  { name: 'ENG-RG01', building: 'Engineering Complex I (Right Wing)', floor: 'Ground Floor', room_type: 'Classroom', capacity: 35 },
+  { name: 'ENG-R101', building: 'Engineering Complex I (Right Wing)', floor: 'First Floor', room_type: 'Computer Lab', capacity: 30 },
+  { name: 'ENG-R102', building: 'Engineering Complex I (Right Wing)', floor: 'First Floor', room_type: 'Classroom', capacity: 30 },
+  { name: 'ENG-LG01', building: 'Engineering Complex I (Left Wing)', floor: 'Ground Floor', room_type: 'Classroom', capacity: 35 },
+  { name: 'ENG-L101', building: 'Engineering Complex I (Left Wing)', floor: 'First Floor', room_type: 'Classroom', capacity: 30 },
+  { name: 'ENG-L102', building: 'Engineering Complex I (Left Wing)', floor: 'First Floor', room_type: 'Computer Lab', capacity: 28 },
+  { name: 'TECH-G01', building: 'Technology Building', floor: 'Ground Floor', room_type: 'Computer Lab', capacity: 30 },
+  { name: 'TECH-101', building: 'Technology Building', floor: 'First Floor', room_type: 'Classroom', capacity: 35 },
+  { name: 'TECH-102', building: 'Technology Building', floor: 'First Floor', room_type: 'Computer Lab', capacity: 28 },
+  { name: 'FAB-G01', building: 'FAB Lab Building', floor: 'Ground Floor', room_type: 'Activity Room', capacity: 24 },
+  { name: 'FAB-101', building: 'FAB Lab Building', floor: 'First Floor', room_type: 'Computer Lab', capacity: 24 }
+];
+
+module.exports = { BUILDINGS, ROOM_TYPES, SAMPLE_ROOMS };

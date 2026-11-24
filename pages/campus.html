@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Campus Map – Smart Class Scheduler</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-page="campus" data-roles="student,faculty,admin">
+  <main id="content">
+    <div class="page-head">
+      <div>
+        <h1>Campus Map & Room Finder</h1>
+        <p class="muted">Choose a numbered building, then browse its floors and rooms.</p>
+      </div>
+      <a class="btn secondary" href="classrooms.html">Classroom availability</a>
+    </div>
+
+    <div class="alert info">
+      Building labels follow the supplied map. Marker positions may be approximate; floor layouts and sample room
+      details are illustrative, not to scale, and must be verified with the campus before use.
+    </div>
+
+    <div class="campus-layout">
+      <section class="card">
+        <h2>Campus map</h2>
+        <p class="muted small">Select a numbered marker or use the building list below.</p>
+        <div class="campus-map-frame">
+          <img src="../assets/campus-map.png" alt="Campus map with numbered buildings and a building legend">
+          <div id="mapMarkers"></div>
+        </div>
+        <div class="field campus-building-list">
+          <label for="campusBuilding">Building directory</label>
+          <select id="campusBuilding"></select>
+        </div>
+        <div id="buildingList" class="building-list"></div>
+      </section>
+
+      <section class="card" id="floorBrowser">
+        <h2 id="buildingTitle">Select a building</h2>
+        <div class="row">
+          <div class="field">
+            <label for="campusFloor">Floor</label>
+            <select id="campusFloor" disabled><option>Select a building first</option></select>
+          </div>
+        </div>
+        <div id="floorNotice" class="alert info hidden"></div>
+        <div class="floor-plan-caption">Illustrative floor layout · not to scale</div>
+        <div id="floorPlan" class="floor-plan">
+          <div class="empty">Choose a building to browse its floors and rooms.</div>
+        </div>
+      </section>
+    </div>
+  </main>
+  <script src="../js/api.js"></script>
+  <script src="../js/ui.js"></script>
+  <script src="../js/layout.js"></script>
+  <script src="../js/campus.js"></script>
+  <script src="../js/chatbot.js"></script>
+</body>
+</html>

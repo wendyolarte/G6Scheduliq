@@ -8,6 +8,7 @@ const Layout = {
     { key: 'schedule', label: 'Schedules', href: 'schedule.html', icon: '📅', roles: ['student', 'faculty', 'admin'] },
     { key: 'courses', label: 'Courses', href: 'courses.html', icon: '📚', roles: ['student', 'faculty', 'admin'] },
     { key: 'classrooms', label: 'Classrooms', href: 'classrooms.html', icon: '🏫', roles: ['student', 'faculty', 'admin'] },
+    { key: 'campus', label: 'Campus Map', href: 'campus.html', icon: '🗺️', roles: ['student', 'faculty', 'admin'] },
     { sec: 'Scheduling tools', roles: ['faculty', 'admin'] },
     { key: 'generator', label: 'Auto Generator', href: 'generator.html', icon: '⚙️', roles: ['faculty', 'admin'] },
     { key: 'conflicts', label: 'Conflicts', href: 'conflicts.html', icon: '⚠️', roles: ['faculty', 'admin'] },

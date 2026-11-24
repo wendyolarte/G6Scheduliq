@@ -831,6 +831,123 @@ td.actions {
   color: var(--primary);
 }
 
+/* ---- Campus map and schematic floor browser ---- */
+.campus-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
+  gap: 1rem;
+  align-items: start;
+}
+.campus-map-frame {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+}
+.campus-map-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.campus-marker {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  min-width: 1.8rem;
+  height: 1.8rem;
+  padding: 0 0.2rem;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1;
+  box-shadow: 0 1px 5px rgba(15, 23, 42, 0.45);
+  cursor: pointer;
+  z-index: 1;
+}
+.campus-marker:hover,
+.campus-marker:focus-visible {
+  background: var(--primary-d);
+  outline: 3px solid var(--warn-l);
+  z-index: 2;
+}
+.campus-building-list {
+  margin-bottom: 0;
+}
+.building-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 0.5rem;
+  max-height: 300px;
+  overflow: auto;
+  margin-top: 0.75rem;
+}
+.building-pick {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  padding: 0.6rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+}
+.building-pick span,
+.floor-room-meta,
+.floor-room-type {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+.building-pick.selected {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 1px var(--primary);
+}
+.floor-plan-caption {
+  margin: 0 0 0.65rem;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+.floor-plan {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+  gap: 0.65rem;
+}
+.floor-room {
+  display: flex;
+  min-height: 120px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--card);
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+}
+.floor-room:hover,
+.floor-room:focus-visible {
+  border-color: var(--primary);
+  box-shadow: var(--shadow);
+}
+.floor-room-number {
+  color: var(--primary);
+  font-weight: 750;
+}
+.sample-label {
+  margin-top: 0.2rem;
+  color: var(--warn);
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
 /* ---- Landing page ---- */
 .site-nav {
   display: flex;
@@ -1212,6 +1329,9 @@ td.actions {
   }
   .auth-art {
     display: none;
+  }
+  .campus-layout {
+    grid-template-columns: 1fr;
   }
 }
 @media (max-width: 820px) {
