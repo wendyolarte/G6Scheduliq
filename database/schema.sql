@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS courses (
   code              VARCHAR(20)  NOT NULL UNIQUE,
   name              VARCHAR(150) NOT NULL,
   faculty_id        INT NULL,
+  instructor_name   VARCHAR(150) NULL,
   units             TINYINT NOT NULL DEFAULT 3,
   expected_students INT NOT NULL DEFAULT 30,
   sessions_per_week TINYINT NOT NULL DEFAULT 2,

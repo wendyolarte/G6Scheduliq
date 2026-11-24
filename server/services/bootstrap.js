@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const bcrypt = require('bcryptjs');
 const pool = require('../config/db');
+const { INSTRUCTORS } = require('./instructor-directory');
 
 // Creates any missing tables from database/schema.sql (safe to run on every start).
 async function ensureSchema() {
@@ -14,6 +15,20 @@ async function ensureSchema() {
     .map(s => s.trim())
     .filter(s => s && !/^(CREATE DATABASE|USE)\b/i.test(s));
   for (const sql of statements) await pool.query(sql);
+
+  const [[column]] = await pool.query(
+    `SELECT COUNT(*) AS found
+       FROM information_schema.COLUMNS
+      WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='courses' AND COLUMN_NAME='instructor_name'`
+  );
+  if (!column.found) await pool.query('ALTER TABLE courses ADD COLUMN instructor_name VARCHAR(150) NULL AFTER faculty_id');
+
+  for (const instructor of INSTRUCTORS) {
+    await pool.query(
+      "UPDATE courses SET instructor_name=? WHERE LOWER(name)=LOWER(?) AND (instructor_name IS NULL OR instructor_name='')",
+      [instructor.name, instructor.course]
+    );
+  }
 }
 
 // Creates the admin account from the environment variables if it does not exist yet.

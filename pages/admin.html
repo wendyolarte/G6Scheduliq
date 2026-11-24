@@ -14,6 +14,7 @@
     <div class="tabs" id="tabs">
       <button class="tab active" data-t="overview">Overview</button>
       <button class="tab" data-t="users">Users</button>
+      <button class="tab" data-t="directory">Faculty &amp; Staff</button>
       <button class="tab" data-t="equipment">Equipment</button>
     </div>
     <section id="overview"></section>
@@ -21,6 +22,14 @@
       <div class="card">
         <div class="toolbar"><input id="uSearch" class="grow" placeholder="Search users by name or email…"><button class="btn" id="addUser">+ Add user</button></div>
         <div class="table-wrap" id="uList">Loading…</div>
+      </div>
+    </section>
+    <section id="directory" class="hidden">
+      <div class="card">
+        <h2>Faculty &amp; Staff Directory</h2>
+        <p class="muted small">These names are for course assignments only; they are not login accounts. In Courses, choose an instructor to see their equipment suggestions. Add catalog items here, then assign actual room equipment under Classrooms. Create a user under Users if someone needs to sign in.</p>
+        <div class="toolbar"><button class="btn secondary sm" id="addSuggestedEquipment">Add recommended equipment to catalog</button></div>
+        <div class="table-wrap" id="directoryList">Loading…</div>
       </div>
     </section>
     <section id="equipment" class="hidden">

@@ -5,8 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   $$('#tabs .tab').forEach(b => b.onclick = () => {
     $$('#tabs .tab').forEach(x => x.classList.toggle('active', x === b));
-    ['overview', 'users', 'equipment'].forEach(s => $('#' + s).classList.toggle('hidden', s !== b.dataset.t));
+    ['overview', 'users', 'directory', 'equipment'].forEach(s => $('#' + s).classList.toggle('hidden', s !== b.dataset.t));
     if (b.dataset.t === 'users') loadUsers();
+    if (b.dataset.t === 'directory') loadDirectory();
     if (b.dataset.t === 'equipment') loadEquipment();
   });
 
@@ -84,6 +85,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const name = $('#eqName').value.trim(); if (!name) return;
     try { await API.post('/rooms/equipment', { name }); $('#eqName').value = ''; toast('Equipment added', 'success'); loadEquipment(); } catch (e) { toast(e.message, 'error'); }
   };
+
+  let directory = [], equipmentCatalog = [];
+  async function loadDirectory() {
+    try {
+      [directory, equipmentCatalog] = await Promise.all([API.get('/courses/instructors'), API.get('/rooms/equipment')]);
+      $('#directoryList').innerHTML = `<table><thead><tr><th>Instructor</th><th>Course</th><th>Possible equipment</th></tr></thead><tbody>
+        ${directory.map(x => `<tr><td><b>${esc(x.name)}</b></td><td>${esc(x.course)}</td>
+          <td>${x.equipment.map(name => `<span class="chip">${esc(name)}</span>`).join('')}</td></tr>`).join('')}</tbody></table>`;
+      const suggested = [...new Set(directory.flatMap(x => x.equipment))];
+      const existing = new Set(equipmentCatalog.map(x => x.name.toLocaleLowerCase()));
+      const missing = suggested.filter(name => !existing.has(name.toLocaleLowerCase()));
+      const addButton = $('#addSuggestedEquipment');
+      addButton.disabled = !missing.length;
+      addButton.textContent = missing.length ? `Add ${missing.length} suggested equipment items to catalog` : 'All suggested equipment is in the catalog';
+      addButton.onclick = async () => {
+        try {
+          for (const name of missing) await API.post('/rooms/equipment', { name });
+          toast(`${missing.length} equipment items added`, 'success');
+          loadDirectory();
+          loadEquipment();
+        } catch (e) { toast(e.message, 'error'); }
+      };
+    } catch (e) { $('#directoryList').innerHTML = `<div class="alert error">${esc(e.message)}</div>`; }
+  }
 
   overview();
 });

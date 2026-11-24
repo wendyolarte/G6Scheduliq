@@ -5,7 +5,7 @@ const hhmm = t => String(t).slice(0, 5);
 // Loads courses, rooms, equipment and enrollments into Maps/Sets used by the scheduler engine
 async function loadContext() {
   const [courses] = await pool.query(
-    'SELECT c.*, u.name AS faculty_name FROM courses c LEFT JOIN users u ON u.id=c.faculty_id'
+    "SELECT c.*, COALESCE(NULLIF(c.instructor_name,''), u.name) AS faculty_name FROM courses c LEFT JOIN users u ON u.id=c.faculty_id"
   );
   const [ce] = await pool.query('SELECT course_id, equipment_id FROM course_equipment');
   const [rooms] = await pool.query('SELECT * FROM rooms');
@@ -30,8 +30,8 @@ async function loadContext() {
 // where = SQL starting with WHERE using aliases s (schedules), c (courses), r (rooms)
 async function loadEntries(where = '', params = []) {
   const [rows] = await pool.query(
-    `SELECT s.*, c.code, c.name AS course_name, c.faculty_id, c.zoom_link, c.classroom_link,
-            r.name AS room_name, u.name AS faculty_name
+    `SELECT s.*, c.code, c.name AS course_name, c.faculty_id, c.instructor_name, c.zoom_link, c.classroom_link,
+            r.name AS room_name, COALESCE(NULLIF(c.instructor_name,''), u.name) AS faculty_name
        FROM schedules s
        JOIN courses c ON c.id = s.course_id
        JOIN rooms r ON r.id = s.room_id

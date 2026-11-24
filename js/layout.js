@@ -21,6 +21,8 @@ const Layout = {
   modeName: { student: 'Student Mode', faculty: 'Faculty/Staff Mode', admin: 'Admin Mode' },
 
   init() {
+    const savedTheme = localStorage.getItem('scheduliq-theme');
+    document.documentElement.dataset.theme = savedTheme === 'dark' ? 'dark' : 'light';
     const body = document.body, page = body.dataset.page;
     const roles = (body.dataset.roles || 'student,faculty,admin').split(',');
     const user = API.user();
@@ -37,7 +39,7 @@ const Layout = {
     shell.innerHTML = `
       <aside class="sidebar" id="sidebar">
         <div class="brand"><span class="logo">🎓</span>Class Scheduler</div>
-        <button class="sidebar-close-btn" id="closeMenuBtn" type="button" aria-label="Close navigation" aria-controls="sidebar">× Close menu</button>
+        <button class="sidebar-close-btn" id="closeMenuBtn" type="button" aria-label="Close navigation" aria-controls="sidebar" aria-expanded="false">× Close menu</button>
         <nav class="nav">${nav}</nav>
         <div class="side-foot"><div>${esc(user.name)}</div><div class="muted">${esc(user.email)}</div></div>
       </aside>
@@ -47,6 +49,7 @@ const Layout = {
           <span class="mode-pill ${user.role}">${Layout.modeName[user.role]}</span>
           <div class="spacer"></div>
           <span class="avatar" title="${esc(user.name)}">${esc(user.name.trim()[0].toUpperCase())}</span>
+          <button class="btn secondary sm theme-btn" id="themeBtn" type="button" aria-label="Switch to dark mode" aria-pressed="false">🌙</button>
           <button class="btn secondary sm" id="logoutBtn">Log out</button>
         </header>
         <div class="page" id="pageHost"></div>
@@ -54,6 +57,8 @@ const Layout = {
     body.prepend(shell);
     $('#pageHost').appendChild(content);
     const sidebar = $('#sidebar'), menuBtn = $('#menuBtn'), closeMenuBtn = $('#closeMenuBtn');
+    const themeBtn = $('#themeBtn');
+    let theme = document.documentElement.dataset.theme;
     const mobileNav = window.matchMedia('(max-width: 820px)');
     let isMobile = mobileNav.matches, navOpen = !isMobile;
     const setNavOpen = open => {
@@ -62,11 +67,26 @@ const Layout = {
       sidebar.classList.toggle('open', isMobile && navOpen);
       menuBtn.setAttribute('aria-expanded', String(navOpen));
       menuBtn.setAttribute('aria-label', navOpen ? 'Hide navigation' : 'Show navigation');
+      closeMenuBtn.setAttribute('aria-expanded', String(navOpen));
     };
     setNavOpen(navOpen);
     menuBtn.onclick = () => setNavOpen(!navOpen);
     closeMenuBtn.onclick = () => setNavOpen(false);
     $('#pageHost').onclick = () => { if (isMobile) setNavOpen(false); };
+    const updateThemeButton = () => {
+      const next = theme === 'dark' ? 'light' : 'dark';
+      themeBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
+      themeBtn.setAttribute('aria-label', `Switch to ${next} mode`);
+      themeBtn.setAttribute('aria-pressed', String(theme === 'dark'));
+      themeBtn.title = `Switch to ${next} mode`;
+    };
+    themeBtn.onclick = () => {
+      theme = theme === 'dark' ? 'light' : 'dark';
+      document.documentElement.dataset.theme = theme;
+      localStorage.setItem('scheduliq-theme', theme);
+      updateThemeButton();
+    };
+    updateThemeButton();
     window.addEventListener('resize', () => {
       if (mobileNav.matches === isMobile) return;
       isMobile = mobileNav.matches;

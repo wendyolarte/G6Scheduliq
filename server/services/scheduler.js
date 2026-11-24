@@ -9,6 +9,14 @@ const toHHMM = m => `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m %
 const hh = t => String(t).slice(0, 5);
 const inter = (a, b) => { let n = 0; const [s, l] = a.size < b.size ? [a, b] : [b, a]; for (const x of s) if (l.has(x)) n++; return n; };
 const toInt = e => ({ ...e, s: toMin(e.start_time ?? toHHMM(e.s)), f: toMin(e.end_time ?? toHHMM(e.f)) });
+const instructorKey = c => {
+  const name = String(c?.instructor_name || '').trim().toLocaleLowerCase();
+  return name ? `name:${name}` : c?.faculty_id ? `user:${c.faculty_id}` : null;
+};
+const sameInstructor = (a, b) => {
+  const aKey = instructorKey(a);
+  return !!aKey && aKey === instructorKey(b);
+};
 
 /* ---------------- Conflict detection ---------------- */
 function detect(entries, ctx) {
@@ -34,7 +42,7 @@ function detect(entries, ctx) {
         push('ROOM_DOUBLE_BOOKED', 'high', `${ctx.rooms.get(a.room_id)?.name || 'Room'} is double-booked: ${label(a)} and ${label(b)} overlap (${when})`, [a.id, b.id]);
       if (a.course_id === b.course_id && a.room_id !== b.room_id)
         push('COURSE_OVERLAP', 'high', `${label(a)} has two overlapping sessions (${when})`, [a.id, b.id]);
-      if (c && cb && c.faculty_id && c.faculty_id === cb.faculty_id && a.course_id !== b.course_id)
+      if (c && cb && sameInstructor(c, cb) && a.course_id !== b.course_id)
         push('FACULTY_CONFLICT', 'high', `${c.faculty_name || 'The instructor'} is assigned to both ${label(a)} and ${label(b)} at the same time (${when})`, [a.id, b.id]);
       if (c && cb && a.course_id !== b.course_id) {
         const k = inter(c.students, cb.students);
@@ -72,7 +80,7 @@ function ensureRelated(ctx) {
     const set = new Set();
     for (const b of ctx.courses.values()) {
       if (a.id === b.id) continue;
-      if ((a.faculty_id && a.faculty_id === b.faculty_id) || inter(a.students, b.students) > 0) set.add(b.id);
+      if (sameInstructor(a, b) || inter(a.students, b.students) > 0) set.add(b.id);
     }
     ctx.related.set(a.id, set);
   }
@@ -105,7 +113,7 @@ function findCandidates(ctx, course, dur, placed, o, mine, anchor) {
   const out = [];
   for (const day of o.days) {
     const dp = placed.filter(p => p.day === day);
-    const facCount = course.faculty_id ? dp.filter(p => ctx.courses.get(p.course_id)?.faculty_id === course.faculty_id).length : 0;
+    const facCount = instructorKey(course) ? dp.filter(p => sameInstructor(ctx.courses.get(p.course_id), course)).length : 0;
     for (let s = ds; s + dur <= de; s += o.step) {
       const e = s + dur;
       if (dp.some(p => p.s < e && s < p.f && (p.course_id === course.id || rel.has(p.course_id)))) continue;

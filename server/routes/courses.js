@@ -1,12 +1,20 @@
 const router = require('express').Router();
 const pool = require('../config/db');
 const { auth } = require('../middleware/auth');
+const { INSTRUCTORS, getDefaultInstructor, isDirectoryInstructor } = require('../services/instructor-directory');
 
 const isLink = v => !v || /^https?:\/\/\S+$/i.test(v);
 
 async function withEquipment(courses) {
   const [ce] = await pool.query('SELECT ce.course_id, e.id, e.name FROM course_equipment ce JOIN equipment e ON e.id=ce.equipment_id');
-  return courses.map(c => ({ ...c, is_enrolled: !!c.is_enrolled, equipment: ce.filter(x => x.course_id === c.id).map(x => ({ id: x.id, name: x.name })) }));
+  return courses.map(c => {
+    const instructorName = c.instructor_name || getDefaultInstructor(c.name)?.name || c.faculty_name || null;
+    return {
+      ...c, instructor_name: instructorName, faculty_name: instructorName,
+      is_enrolled: !!c.is_enrolled,
+      equipment: ce.filter(x => x.course_id === c.id).map(x => ({ id: x.id, name: x.name }))
+    };
+  });
 }
 
 async function canEdit(user, courseId) {
@@ -25,12 +33,14 @@ function clean(b) {
   const out = {
     code: String(b.code || '').trim().toUpperCase(),
     name: String(b.name || '').trim(),
+    instructor_name: String(b.instructor_name || '').trim() || null,
     units: +b.units || 3,
     expected_students: +b.expected_students || 0,
     sessions_per_week: +b.sessions_per_week || 1,
     duration_min: +b.duration_min || 90
   };
   if (!out.code || !out.name) return { error: 'Course code and name are required' };
+  if (out.instructor_name && !isDirectoryInstructor(out.instructor_name)) return { error: 'Choose an instructor from the directory' };
   if (out.expected_students < 1) return { error: 'Expected students must be at least 1' };
   if (out.sessions_per_week < 1 || out.sessions_per_week > 6) return { error: 'Sessions per week must be 1 to 6' };
   if (out.duration_min < 30 || out.duration_min > 300) return { error: 'Duration must be 30 to 300 minutes' };
@@ -51,14 +61,18 @@ router.get('/faculty', auth('faculty', 'admin'), async (req, res) => {
   res.json(rows);
 });
 
+router.get('/instructors', auth(), (req, res) => {
+  res.json(INSTRUCTORS);
+});
+
 router.post('/', auth('faculty', 'admin'), async (req, res) => {
   const { value, error } = clean(req.body);
   if (error) return res.status(400).json({ error });
   const facultyId = req.user.role === 'faculty' ? req.user.id : (req.body.faculty_id ? +req.body.faculty_id : null);
   try {
     const [r] = await pool.query(
-      'INSERT INTO courses(code,name,faculty_id,units,expected_students,sessions_per_week,duration_min) VALUES(?,?,?,?,?,?,?)',
-      [value.code, value.name, facultyId, value.units, value.expected_students, value.sessions_per_week, value.duration_min]);
+      'INSERT INTO courses(code,name,faculty_id,instructor_name,units,expected_students,sessions_per_week,duration_min) VALUES(?,?,?,?,?,?,?,?)',
+      [value.code, value.name, facultyId, value.instructor_name, value.units, value.expected_students, value.sessions_per_week, value.duration_min]);
     await setEquipment(r.insertId, req.body.equipment);
     res.status(201).json({ id: r.insertId });
   } catch (e) {
@@ -73,11 +87,11 @@ router.put('/:id', auth('faculty', 'admin'), async (req, res) => {
   const { value, error } = clean(req.body);
   if (error) return res.status(400).json({ error });
   const facultyClause = req.user.role === 'admin' ? ', faculty_id=?' : '';
-  const params = [value.code, value.name, value.units, value.expected_students, value.sessions_per_week, value.duration_min];
+  const params = [value.code, value.name, value.instructor_name, value.units, value.expected_students, value.sessions_per_week, value.duration_min];
   if (req.user.role === 'admin') params.push(req.body.faculty_id ? +req.body.faculty_id : null);
   params.push(req.params.id);
   try {
-    await pool.query(`UPDATE courses SET code=?,name=?,units=?,expected_students=?,sessions_per_week=?,duration_min=?${facultyClause} WHERE id=?`, params);
+    await pool.query(`UPDATE courses SET code=?,name=?,instructor_name=?,units=?,expected_students=?,sessions_per_week=?,duration_min=?${facultyClause} WHERE id=?`, params);
   } catch (e) {
     if (e.code === 'ER_DUP_ENTRY') return res.status(409).json({ error: 'That course code already exists' });
     throw e;

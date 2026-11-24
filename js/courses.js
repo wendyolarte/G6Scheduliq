@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', async () => {
   if (!Layout.ok) return;
   const u = API.user(), student = u.role === 'student';
-  let courses = [], equipment = [], faculty = [];
+  let courses = [], equipment = [], faculty = [], instructors = [];
   $('#subtitle').textContent = student ? 'Enroll in the courses you take. Your timetable is built from them.' : 'Courses drive automatic scheduling: size, sessions, duration and equipment.';
   if (student) $('#addBtn').classList.add('hidden');
   $('#mineLbl').textContent = student ? 'Only enrolled' : 'Only mine';
@@ -9,7 +9,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   async function load() {
     try {
-      [courses, equipment] = await Promise.all([API.get('/courses'), API.get('/rooms/equipment')]);
+      [courses, equipment, instructors] = await Promise.all([
+        API.get('/courses'), API.get('/rooms/equipment'), API.get('/courses/instructors')
+      ]);
       if (u.role === 'admin') faculty = await API.get('/courses/faculty');
       render();
     } catch (e) { $('#list').innerHTML = `<div class="alert error">${esc(e.message)}</div>`; }
@@ -41,23 +43,31 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   function form(c) {
     const has = id => c && c.equipment.some(e => e.id === id);
+    const normalize = value => String(value || '').trim().toLocaleLowerCase();
+    const matchedInstructor = instructors.find(i => normalize(i.course) === normalize(c?.name));
+    const instructorName = c?.instructor_name || matchedInstructor?.name || '';
     const m = modal({
       title: c ? 'Edit course' : 'New course', wide: true,
       body: `<div id="err" class="alert error hidden"></div>
         <div class="row"><div class="field"><label>Code</label><input id="fCode" value="${esc(c?.code || '')}" placeholder="CS101"></div>
         <div class="field" style="flex:2"><label>Name</label><input id="fName" value="${esc(c?.name || '')}"></div></div>
-        ${u.role === 'admin' ? `<div class="field"><label>Instructor</label><select id="fFac"><option value="">— Unassigned —</option>${faculty.map(f => `<option value="${f.id}" ${c?.faculty_id === f.id ? 'selected' : ''}>${esc(f.name)}</option>`).join('')}</select></div>` : ''}
+        <div class="field"><label>Instructor (directory)</label><select id="fInstructor">
+          <option value="">— Use account name or leave unassigned —</option>
+          ${instructors.map(i => `<option value="${esc(i.name)}" ${instructorName === i.name ? 'selected' : ''}>${esc(i.name)} · ${esc(i.course)}</option>`).join('')}
+        </select><div id="equipmentSuggestion"></div></div>
+        ${u.role === 'admin' ? `<div class="field"><label>Faculty/Staff login account (optional)</label><select id="fFac"><option value="">— No course login owner —</option>${faculty.map(f => `<option value="${f.id}" ${c?.faculty_id === f.id ? 'selected' : ''}>${esc(f.name)}</option>`).join('')}</select><span class="muted small">Directory instructors do not have login accounts. Choose an account only if a faculty user needs course-management access.</span></div>` : ''}
         <div class="row"><div class="field"><label>Units</label><input id="fUnits" type="number" min="1" max="12" value="${c?.units || 3}"></div>
         <div class="field"><label>Expected students</label><input id="fStu" type="number" min="1" value="${c?.expected_students || 30}"></div>
         <div class="field"><label>Sessions / week</label><input id="fSes" type="number" min="1" max="6" value="${c?.sessions_per_week || 2}"></div>
         <div class="field"><label>Minutes / session</label><input id="fDur" type="number" min="30" max="300" step="15" value="${c?.duration_min || 90}"></div></div>
-        <div class="field"><label>Required equipment</label><div class="checks">${equipment.map(e => `<label><input type="checkbox" value="${e.id}" ${has(e.id) ? 'checked' : ''}> ${esc(e.name)}</label>`).join('')}</div></div>`,
+        <div class="field"><label>Required equipment</label><div class="checks" id="fEquipment">${equipment.map(e => `<label><input type="checkbox" value="${e.id}" ${has(e.id) ? 'checked' : ''}> ${esc(e.name)}</label>`).join('')}</div></div>`,
       actions: [{ label: 'Cancel' }, {
         label: 'Save', onClick: async (close, btn) => {
           const body = {
             code: $('#fCode', m.el).value, name: $('#fName', m.el).value, units: $('#fUnits', m.el).value,
             expected_students: $('#fStu', m.el).value, sessions_per_week: $('#fSes', m.el).value, duration_min: $('#fDur', m.el).value,
-            equipment: $$('.checks input:checked', m.el).map(i => +i.value), faculty_id: $('#fFac', m.el)?.value || null
+            instructor_name: $('#fInstructor', m.el).value || null,
+            equipment: $$('#fEquipment input:checked', m.el).map(i => +i.value), faculty_id: $('#fFac', m.el)?.value || null
           };
           btn.disabled = true;
           try { c ? await API.put('/courses/' + c.id, body) : await API.post('/courses', body); close(); toast('Course saved', 'success'); load(); }
@@ -65,6 +75,34 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
       }]
     });
+    const renderSuggestion = () => {
+      const selected = instructors.find(i => i.name === $('#fInstructor', m.el).value);
+      const box = $('#equipmentSuggestion', m.el);
+      if (!selected) { box.innerHTML = ''; return; }
+      const known = new Set(equipment.map(e => normalize(e.name)));
+      const available = selected.equipment.filter(name => known.has(normalize(name)));
+      const missing = selected.equipment.filter(name => !known.has(normalize(name)));
+      box.innerHTML = `<div class="muted small"><b>Possible equipment for ${esc(selected.course)}:</b> ${selected.equipment.map(esc).join(', ')}.
+        These are suggestions, not requirements. <button class="btn secondary sm" id="applySuggestions" type="button" ${available.length ? '' : 'disabled'}>Add ${available.length} available suggestions</button>
+        ${missing.length ? `<div>Not in the equipment catalog yet: ${missing.map(esc).join(', ')}. Add these in Admin Panel → Equipment first.</div>` : ''}</div>`;
+      $('#applySuggestions', m.el).onclick = () => {
+        const suggested = new Set(selected.equipment.map(normalize));
+        $$('#fEquipment input', m.el).forEach(input => {
+          if (suggested.has(normalize(equipment.find(e => e.id === +input.value)?.name))) input.checked = true;
+        });
+        toast('Suggestions added. Review the required equipment before saving.', 'success');
+      };
+    };
+    $('#fInstructor', m.el).onchange = renderSuggestion;
+    $('#fName', m.el).onchange = () => {
+      if ($('#fInstructor', m.el).value) return;
+      const suggested = instructors.find(i => normalize(i.course) === normalize($('#fName', m.el).value));
+      if (suggested) {
+        $('#fInstructor', m.el).value = suggested.name;
+        renderSuggestion();
+      }
+    };
+    renderSuggestion();
   }
 
   $('#addBtn').onclick = () => form();
