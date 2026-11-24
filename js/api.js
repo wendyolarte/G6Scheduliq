@@ -1,5 +1,5 @@
 /* API client: talks to the Express/MySQL backend and keeps the login session */
-const PRODUCTION_API_BASE = "g6scheduliq-production.up.railway.app";
+const PRODUCTION_API_BASE = "https://g6scheduliq-production.up.railway.app/api";
 const API = {
   base: PRODUCTION_API_BASE || ((['5500', '5501', '8080'].includes(location.port) || location.protocol === 'file:') ? 'http://localhost:3000/api' : '/api'),
   token: () => localStorage.getItem('ss_token'),
