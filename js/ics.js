@@ -24,10 +24,12 @@ const Cal = {
     return 'https://calendar.google.com/calendar/render?' + p.toString();
   },
   ics(items, startDate, weeks) {
-    const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Smart Class Scheduler//EN', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH'];
+    const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Scheduliq//EN', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH'];
+    const stamp = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z');
     items.forEach((it, i) => {
       const d = Cal.firstDate(startDate, it.day);
-      lines.push('BEGIN:VEVENT', `UID:${Date.now()}-${i}@smart-class-scheduler`, `DTSTAMP:${Cal.stamp(new Date(), '00:00')}Z`,
+      const uid = it.uid || `event-${i}`;
+      lines.push('BEGIN:VEVENT', `UID:${uid}@scheduliq.local`, `DTSTAMP:${stamp}`,
         `DTSTART;TZID=${Cal.tz()}:${Cal.stamp(d, it.start_time)}`, `DTEND;TZID=${Cal.tz()}:${Cal.stamp(d, it.end_time)}`,
         `SUMMARY:${Cal.text(it.title)}`, `LOCATION:${Cal.text(it.location || '')}`, `DESCRIPTION:${Cal.text(Cal.details(it))}`);
       if (weeks > 1) lines.push(`RRULE:FREQ=WEEKLY;COUNT=${weeks}`);

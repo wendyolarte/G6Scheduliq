@@ -7,16 +7,24 @@ document.addEventListener('DOMContentLoaded', async () => {
   // default semester start = next Monday
   const d = new Date(); d.setDate(d.getDate() + ((8 - d.getDay()) % 7 || 7));
   $('#startDate').value = d.toISOString().slice(0, 10);
-  $('#zoomNote').textContent = canEditLinks ? 'Paste the Zoom link for each of your courses. Students will see a join link on their timetable and in calendar events.' : 'Join links set by your instructors appear here and are added to your calendar events.';
-  $('#gcNote').textContent = canEditLinks ? 'Save each course\'s Classroom link so students can open it from their timetable.' : 'Open the Classroom for each of your courses.';
+  $('#zoomNote').textContent = canEditLinks
+    ? 'Create a meeting in Zoom, then save its join link below. Scheduliq stores and displays the link; it does not connect to Zoom or create meetings for you.'
+    : 'Open the Zoom join link your instructor saved. Scheduliq does not connect to Zoom or manage meetings.';
+  $('#gcNote').textContent = canEditLinks
+    ? 'Save each course\'s Classroom link below. Use the share or copy buttons to post manually; Scheduliq does not publish schedules, assignments, or files to Classroom.'
+    : 'Open the Classroom link your instructor saved. Schedules and assignments are not published to Classroom automatically.';
 
   const items = () => {
     const list = [];
     if ($('#incClasses').checked) entries.filter(e => e.status !== 'rejected').forEach(e => list.push({
       title: `${e.code} – ${e.course_name}`, day: e.day, start_time: e.start_time, end_time: e.end_time, location: e.room_name,
-      description: e.faculty_name ? 'Instructor: ' + e.faculty_name : '', zoom_link: e.zoom_link, classroom_link: e.classroom_link
+      description: e.faculty_name ? 'Instructor: ' + e.faculty_name : '', zoom_link: e.zoom_link, classroom_link: e.classroom_link,
+      uid: `schedule-${e.id}`
     }));
-    if ($('#incPersonal').checked) events.forEach(e => list.push({ title: e.title, day: e.day, start_time: e.start_time, end_time: e.end_time, location: e.location || '', description: 'Added from Smart Class Scheduler' }));
+    if ($('#incPersonal').checked) events.forEach(e => list.push({
+      title: e.title, day: e.day, start_time: e.start_time, end_time: e.end_time, location: e.location || '',
+      description: 'Added from Scheduliq', uid: `personal-${e.id}`
+    }));
     return list;
   };
   const weeks = () => Math.max(1, Math.min(30, +$('#weeks').value || 1));
@@ -26,7 +34,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (!list.length) { $('#items').innerHTML = '<div class="empty">Nothing to sync yet. Your approved classes and scanned events will appear here.</div>'; return; }
     $('#items').innerHTML = `<table><thead><tr><th>Event</th><th>Day</th><th>Time</th><th>Where</th><th></th></tr></thead><tbody>
       ${list.map((it, i) => `<tr><td><b>${esc(it.title)}</b></td><td>${DAY_FULL[it.day]}</td><td>${fmt12(it.start_time)} – ${fmt12(it.end_time)}</td><td>${esc(it.location || '—')}</td>
-        <td class="actions"><a class="btn secondary sm" target="_blank" rel="noopener" href="${esc(Cal.googleLink(it, $('#startDate').value, weeks()))}">＋ Google Calendar</a></td></tr>`).join('')}</tbody></table>`;
+        <td class="actions"><a class="btn secondary sm" target="_blank" rel="noopener" aria-label="Add ${esc(it.title)} to Google Calendar" href="${esc(Cal.googleLink(it, $('#startDate').value, weeks()))}">＋ Add to Google Calendar</a></td></tr>`).join('')}</tbody></table>`;
   }
 
   async function load() {
@@ -62,7 +70,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const list = items();
     if (!list.length) return toast('Nothing to export yet', 'error');
     download('class-schedule.ics', Cal.ics(list, $('#startDate').value, weeks()), 'text/calendar');
-    toast(`Exported ${list.length} events`, 'success');
+    toast(`Downloaded ${list.length} events. Import the .ics file in Google Calendar to add them.`, 'success');
   };
   ['#startDate', '#weeks', '#incClasses', '#incPersonal'].forEach(s => $(s).onchange = renderItems);
 
@@ -71,7 +79,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     return `Class schedule\n${rows.join('\n')}`;
   };
   $('#copyBtn').onclick = async () => {
-    try { await navigator.clipboard.writeText(announcement()); toast('Copied. Paste it into a Classroom announcement.', 'success'); }
+    try { await navigator.clipboard.writeText(announcement()); toast('Copied. Open Classroom and paste it into an announcement.', 'success'); }
     catch { modal({ title: 'Copy this text', body: `<textarea rows="10" readonly>${esc(announcement())}</textarea>`, actions: [{ label: 'Close' }] }); }
   };
   $('#shareBtn').onclick = () => {
