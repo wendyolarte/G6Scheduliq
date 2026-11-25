@@ -3,7 +3,7 @@ CREATE DATABASE IF NOT EXISTS Scheduliq CHARACTER SET utf8mb4 COLLATE utf8mb4_un
 USE Scheduliq;
 
 CREATE TABLE IF NOT EXISTS users (
-  id            INT AUTO_INCREMENT PRIMARY KEY,
+  id            BIGINT AUTO_INCREMENT PRIMARY KEY,
   name          VARCHAR(100) NOT NULL,
   email         VARCHAR(150) NOT NULL UNIQUE,
   password_hash VARCHAR(255) NOT NULL,
@@ -44,10 +44,10 @@ CREATE TABLE IF NOT EXISTS room_equipment (
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS courses (
-  id                INT AUTO_INCREMENT PRIMARY KEY,
+  id                BIGINT AUTO_INCREMENT PRIMARY KEY,
   code              VARCHAR(20)  NOT NULL UNIQUE,
   name              VARCHAR(150) NOT NULL,
-  faculty_id        INT NULL,
+  faculty_id        BIGINT NULL,
   instructor_name   VARCHAR(150) NULL,
   units             TINYINT NOT NULL DEFAULT 3,
   expected_students INT NOT NULL DEFAULT 30,
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS courses (
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS course_equipment (
-  course_id    INT NOT NULL,
+  course_id    BIGINT NOT NULL,
   equipment_id INT NOT NULL,
   PRIMARY KEY (course_id, equipment_id),
   FOREIGN KEY (course_id)    REFERENCES courses(id)   ON DELETE CASCADE,
@@ -67,24 +67,24 @@ CREATE TABLE IF NOT EXISTS course_equipment (
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS enrollments (
-  student_id INT NOT NULL,
-  course_id  INT NOT NULL,
+  student_id BIGINT NOT NULL,
+  course_id  BIGINT NOT NULL,
   PRIMARY KEY (student_id, course_id),
   FOREIGN KEY (student_id) REFERENCES users(id)   ON DELETE CASCADE,
   FOREIGN KEY (course_id)  REFERENCES courses(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS schedules (
-  id          INT AUTO_INCREMENT PRIMARY KEY,
-  course_id   INT NOT NULL,
+  id          BIGINT AUTO_INCREMENT PRIMARY KEY,
+  course_id   BIGINT NOT NULL,
   room_id     INT NOT NULL,
   day         ENUM('Mon','Tue','Wed','Thu','Fri','Sat') NOT NULL,
   start_time  TIME NOT NULL,
   end_time    TIME NOT NULL,
   status      ENUM('draft','pending','approved','rejected') NOT NULL DEFAULT 'draft',
   batch_id    VARCHAR(40) NULL,
-  created_by  INT NULL,
-  reviewed_by INT NULL,
+  created_by  BIGINT NULL,
+  reviewed_by BIGINT NULL,
   review_note VARCHAR(255) NULL,
   created_at  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -98,8 +98,8 @@ CREATE TABLE IF NOT EXISTS schedules (
 
 -- Personal events: saved from scanned/photographed timetables or added by hand
 CREATE TABLE IF NOT EXISTS personal_events (
-  id         INT AUTO_INCREMENT PRIMARY KEY,
-  user_id    INT NOT NULL,
+  id         BIGINT AUTO_INCREMENT PRIMARY KEY,
+  user_id    BIGINT NOT NULL,
   title      VARCHAR(150) NOT NULL,
   day        ENUM('Mon','Tue','Wed','Thu','Fri','Sat') NOT NULL,
   start_time TIME NOT NULL,
@@ -111,8 +111,8 @@ CREATE TABLE IF NOT EXISTS personal_events (
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS chat_logs (
-  id         INT AUTO_INCREMENT PRIMARY KEY,
-  user_id    INT NULL,
+  id         BIGINT AUTO_INCREMENT PRIMARY KEY,
+  user_id    BIGINT NULL,
   message    TEXT NOT NULL,
   reply      TEXT NOT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,

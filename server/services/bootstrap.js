@@ -15,7 +15,34 @@ async function ensureSchema() {
     .split(';')
     .map(s => s.trim())
     .filter(s => s && !/^(CREATE DATABASE|USE)\b/i.test(s));
+
+  const [scheduleColumns] = await pool.query(
+    `SELECT COLUMN_NAME
+       FROM information_schema.COLUMNS
+      WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='schedules'`
+  );
+  const scheduleColumnNames = new Set(scheduleColumns.map(column => column.COLUMN_NAME));
+  if (scheduleColumns.length && !scheduleColumnNames.has('course_id')) {
+    await pool.query('RENAME TABLE schedules TO schedules_legacy');
+  }
+
   for (const sql of statements) await pool.query(sql);
+
+  const [userColumns] = await pool.query(
+    `SELECT COLUMN_NAME
+       FROM information_schema.COLUMNS
+      WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='users'`
+  );
+  const existingUserColumns = new Set(userColumns.map(column => column.COLUMN_NAME));
+  if (!existingUserColumns.has('name') && existingUserColumns.has('full_name')) {
+    await pool.query('ALTER TABLE users CHANGE COLUMN full_name name VARCHAR(150) NOT NULL');
+  }
+  if (!existingUserColumns.has('school_id')) {
+    await pool.query('ALTER TABLE users ADD COLUMN school_id VARCHAR(50) NULL AFTER department');
+  }
+  if (!existingUserColumns.has('is_active')) {
+    await pool.query('ALTER TABLE users ADD COLUMN is_active TINYINT(1) NOT NULL DEFAULT 1 AFTER school_id');
+  }
 
   const [roomColumns] = await pool.query(
     `SELECT COLUMN_NAME
