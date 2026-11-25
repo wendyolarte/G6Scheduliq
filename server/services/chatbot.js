@@ -38,6 +38,7 @@ const line = e => `• ${e.day} ${e.start_time}–${e.end_time}  ${e.code} (${e.
 const needSignIn = () => R('Please sign in first so I can look up your personal schedule. You can log in from the Login page.', ['How do I sign up?']);
 
 function detectLanguage(message) {
+  if (/[\u0E00-\u0E7F]/.test(message)) return 'th';
   if (/[\u3040-\u30FF]/.test(message)) return 'ja';
   if (/[\uAC00-\uD7AF]/.test(message)) return 'ko';
   if (/[\u0900-\u097F]/.test(message)) return 'hi';
@@ -55,6 +56,19 @@ function detectLanguage(message) {
 function normalizeMultilingualMessage(message) {
   let text = message.toLowerCase();
   const replacements = [
+    // Thai
+    [/สวัสดี|หวัดดี/g, 'hello'], [/ช่วยด้วย|ช่วยเหลือ/g, 'help'],
+    [/ตารางของฉัน|ตารางเรียนของฉัน|ตารางวันนี้|คาบเรียนของฉัน/g, 'my schedule'],
+    [/พรุ่งนี้/g, 'tomorrow'], [/วันนี้/g, 'today'], [/ถัดไป|ต่อไป/g, 'next'],
+    [/ห้องว่าง|ห้องที่ว่าง|ห้องเรียนว่าง/g, 'free rooms'],
+    [/ห้องเรียน|ห้องประชุม|ห้อง/g, 'rooms'], [/ว่าง|พร้อมใช้งาน/g, 'free'],
+    [/ความขัดแย้ง|ตารางชน|ชนกัน|ซ้ำซ้อน/g, 'conflicts'],
+    [/อนุมัติ|รอดำเนินการ|รอตรวจ/g, 'approvals'],
+    [/สมัครสมาชิก|สร้างบัญชี|ลงทะเบียน/g, 'sign up'], [/เข้าสู่ระบบ|รหัสผ่าน/g, 'log in'],
+    [/สร้างตาราง|จัดตารางอัตโนมัติ|ตารางอัตโนมัติ/g, 'generate schedule'],
+    [/ความจุ|ที่นั่ง/g, 'capacity'], [/โปรเจกเตอร์/g, 'projector'],
+    [/สแกนตาราง|สแกน|รูปภาพ/g, 'scan timetable'],
+    [/ซิงค์|google calendar|ปฏิทิน/g, 'sync calendar'], [/คุณสมบัติ|ฟีเจอร์/g, 'features'],
     // Japanese
     [/こんにちは|こんちは|ハイ/g, 'hello'], [/助けて|ヘルプ/g, 'help'],
     [/私の時間割|私のスケジュール|授業一覧|今日の授業/g, 'my schedule'],
@@ -149,6 +163,15 @@ function normalizeMultilingualMessage(message) {
 }
 
 const STATIC_TRANSLATIONS = {
+  th: {
+    'Hi! I can help with schedules, rooms, account setup, and app features. What would you like to know?': 'สวัสดี! ฉันสามารถช่วยเรื่องตารางเรียน ห้อง บัญชีผู้ใช้ และฟีเจอร์ของแอปได้ คุณต้องการทราบอะไร?',
+    'Hi! I can look up schedules, find free rooms, check room capacity and equipment, report conflicts, show approval status and guide you through every feature. What would you like to do?': 'สวัสดี! ฉันสามารถดูตารางเรียน ค้นหาห้องว่าง ตรวจความจุและอุปกรณ์ของห้อง รายงานความขัดแย้ง แสดงสถานะการอนุมัติ และแนะนำฟีเจอร์ทุกอย่างได้ คุณต้องการทำอะไร?',
+    'Please sign in first so I can look up your personal schedule. You can log in from the Login page.': 'กรุณาเข้าสู่ระบบก่อนเพื่อให้ฉันตรวจสอบตารางส่วนตัวของคุณ คุณสามารถเข้าสู่ระบบจากหน้า Login',
+    "I'm not sure I understood that. I can help with your schedule, free rooms, room capacity/equipment, conflicts, approvals, course info, syncing and scanning.": 'ฉันไม่แน่ใจว่าจับใจความได้ถูกต้อง ฉันช่วยเรื่องตารางเรียน ห้องว่าง ความจุหรืออุปกรณ์ของห้อง ความขัดแย้ง การอนุมัติ ข้อมูลรายวิชา การซิงค์ และการสแกนได้',
+    'Good news – no schedule conflicts found.': 'ข่าวดี — ไม่พบความขัดแย้งในตารางเรียน',
+    'No rooms match those requirements.': 'ไม่พบห้องที่ตรงกับเงื่อนไขเหล่านี้',
+    'The Smart Class Scheduler offers scheduling information management, automatic schedule generation, constraint optimisation, classroom availability, capacity and equipment checks, conflict detection, alternative suggestions, schedule viewing/management and an approval workflow, plus Google Calendar/Zoom/Classroom sync and timetable scanning.': 'Smart Class Scheduler มีระบบจัดการตารางเรียน การสร้างตารางอัตโนมัติ การปรับแต่งเงื่อนไข การตรวจห้องว่าง ความจุและอุปกรณ์ การตรวจจับความขัดแย้ง ข้อเสนอทางเลือก การดูและจัดการตาราง ขั้นตอนการอนุมัติ รวมถึงการซิงค์ Google Calendar/Zoom/Classroom และการสแกนตารางเรียน'
+  },
   ja: {
     'Hi! I can help with schedules, rooms, account setup, and app features. What would you like to know?': 'こんにちは！時間割、教室、アカウント設定、アプリの機能についてお手伝いできます。何について知りたいですか？',
     'Hi! I can look up schedules, find free rooms, check room capacity and equipment, report conflicts, show approval status and guide you through every feature. What would you like to do?': 'こんにちは！時間割の確認、空き教室の検索、教室の定員や設備の確認、競合や承認状況の確認、各機能の案内ができます。何をしますか？',
@@ -215,6 +238,15 @@ const STATIC_TRANSLATIONS = {
 };
 
 const SUGGESTION_TRANSLATIONS = {
+  th: {
+    'What is my schedule today?': 'ตารางเรียนของฉันวันนี้เป็นอย่างไร?', 'Which rooms are free now?': 'ตอนนี้ห้องไหนว่างบ้าง?',
+    'How do I scan my timetable?': 'ฉันจะสแกนตารางเรียนได้อย่างไร?', 'How do I sync to Google Calendar?': 'ฉันจะซิงค์กับ Google Calendar ได้อย่างไร?',
+    'Show my classes': 'แสดงวิชาเรียนของฉัน', 'Any schedule conflicts?': 'มีตารางเรียนชนกันหรือไม่?',
+    'How do I generate a schedule?': 'ฉันจะสร้างตารางเรียนได้อย่างไร?', 'Which rooms have a projector?': 'ห้องไหนมีโปรเจกเตอร์?',
+    'Any pending approvals?': 'มีรายการรออนุมัติหรือไม่?', 'How do I add a user?': 'ฉันจะเพิ่มผู้ใช้ได้อย่างไร?',
+    'What can you do?': 'คุณช่วยอะไรได้บ้าง?', 'How do I sign up?': 'ฉันจะสมัครสมาชิกได้อย่างไร?', 'What features are there?': 'มีฟีเจอร์อะไรบ้าง?',
+    'How do I log in?': 'ฉันจะเข้าสู่ระบบได้อย่างไร?'
+  },
   ja: {
     'What is my schedule today?': '今日の自分の時間割は？', 'Which rooms are free now?': '今空いている教室は？',
     'How do I scan my timetable?': '時間割をスキャンするには？', 'How do I sync to Google Calendar?': 'Google カレンダーと同期するには？',
@@ -361,6 +393,19 @@ function translateReply(text, language) {
     ['I found ', '找到 '], ['conflict(s):', '个冲突：'], ['No approved schedule yet.', '目前还没有已批准的课程表。'],
     ['Schedule:', '课程表：'], ['Monday', '周一'], ['Tuesday', '周二'], ['Wednesday', '周三'],
     ['Thursday', '周四'], ['Friday', '周五'], ['Saturday', '周六'], ['Sunday', '周日']
+  ] : language === 'th' ? [
+    ['I can look up schedules, find free rooms, check room capacity and equipment, report conflicts, show approval status and guide you through every feature.', 'ฉันสามารถดูตารางเรียน ค้นหาห้องว่าง ตรวจความจุและอุปกรณ์ของห้อง รายงานความขัดแย้ง แสดงสถานะการอนุมัติ และแนะนำฟีเจอร์ทุกอย่างได้'],
+    ['What would you like to do?', 'คุณต้องการทำอะไร?'],
+    ['Your classes today:', 'วิชาเรียนของคุณวันนี้:'], ['Your classes tomorrow:', 'วิชาเรียนของคุณพรุ่งนี้:'],
+    ['Your classes', 'วิชาเรียนของคุณ'], ['You have no classes today.', 'คุณไม่มีวิชาเรียนวันนี้'],
+    ['You have no classes tomorrow.', 'คุณไม่มีวิชาเรียนพรุ่งนี้'], ['Free rooms on ', 'ห้องว่างในวันที่ '],
+    ['No rooms match for ', 'ไม่พบห้องที่ตรงกับเงื่อนไขสำหรับ '], ['room(s) match:', 'ห้องตรงตามเงื่อนไข:'],
+    ['Capacity:', 'ความจุ:'], ['Equipment:', 'อุปกรณ์:'], ['Status:', 'สถานะ:'],
+    ['Available for scheduling', 'สามารถจัดตารางได้'], ['Currently unavailable', 'ไม่พร้อมใช้งานในขณะนี้'],
+    ['I found ', 'พบ '], ['conflict(s):', 'ความขัดแย้ง:'], ['No approved schedule yet.', 'ยังไม่มีตารางเรียนที่ได้รับอนุมัติ'],
+    ['Schedule:', 'ตารางเรียน:'], ['Monday', 'วันจันทร์'], ['Tuesday', 'วันอังคาร'],
+    ['Wednesday', 'วันพุธ'], ['Thursday', 'วันพฤหัสบดี'], ['Friday', 'วันศุกร์'],
+    ['Saturday', 'วันเสาร์'], ['Sunday', 'วันอาทิตย์']
   ] : [
     ['I can look up schedules, find free rooms, check room capacity and equipment, report conflicts, show approval status and guide you through every feature.', 'Makita ko ang schedule, makapangita og libre nga kwarto, makasusi sa kapasidad ug ekipo, makasulti sa conflict, makakita sa approval status, ug magiyahan ka sa mga feature.'],
     ['What would you like to do?', 'Unsa ang imong gusto buhaton?'],

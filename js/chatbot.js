@@ -66,6 +66,7 @@
 
   function browserLanguage() {
     const language = String(navigator.language || 'en').toLowerCase();
+    if (language.startsWith('th')) return 'th';
     if (language.startsWith('ko')) return 'ko';
     if (language.startsWith('es')) return 'es';
     if (language.startsWith('ja')) return 'ja';
@@ -77,6 +78,11 @@
   }
 
   const languageUi = {
+    th: {
+      greeting: 'สวัสดี! ฉันสามารถช่วยเรื่องตารางเรียน ห้อง บัญชีผู้ใช้ และฟีเจอร์ของแอปได้ คุณต้องการทราบอะไร?',
+      placeholder: 'ถามเกี่ยวกับตารางเรียน ห้อง หรือฟีเจอร์...',
+      prompts: ['ตารางเรียนของฉันวันนี้เป็นอย่างไร?', 'ตอนนี้ห้องไหนว่างบ้าง?', 'ฉันจะสแกนตารางเรียนได้อย่างไร?']
+    },
     ja: {
       greeting: 'こんにちは！時間割、教室、アカウント設定、アプリの機能についてお手伝いできます。何について知りたいですか？',
       placeholder: '時間割、教室、または機能について質問してください...',
