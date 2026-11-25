@@ -7,9 +7,10 @@ SHOW TABLES FROM scheduliq;
 -- 2. Check registered users
 SELECT
     id,
-    full_name,
+    name AS full_name,
     email,
-    role,    department,
+    role,
+    department,
     created_at
 FROM scheduliq.users
 ORDER BY id DESC;
