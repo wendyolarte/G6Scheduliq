@@ -36,7 +36,7 @@ FROM scheduliq.faculty_availability;
 -- 7. Check schedules
 SELECT *
 FROM scheduliq.schedules
-ORDER BY day_of_week, start_time;
+ORDER BY day, start_time;
 
 -- 8. Check schedule approval status
 SELECT

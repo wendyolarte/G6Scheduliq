@@ -10,24 +10,61 @@
   <meta property="og:type" content="website">
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="landing-page">
   <header class="site-nav">
-    <a href="index.html" class="brand" style="color:var(--text)"><span class="logo">🎓</span>SchedulIq</a>
+    <a href="index.html" class="brand"><span class="logo" aria-hidden="true">✳</span>Scheduliq</a>
     <nav class="links">
       <a class="plain" href="#features">Features</a>
       <a class="plain" href="#how-it-works">How it works</a>
       <a class="plain" href="#modes">Modes</a>
       <a class="plain" href="#faq">FAQ</a>
-      <a id="navLogin" class="btn secondary sm" href="pages/login.html">Log in</a>
+      <a id="navLogin" class="btn ghost sm" href="pages/login.html">Log in</a>
       <a id="navSignup" class="btn sm" href="pages/register.html">Sign up</a>
     </nav>
   </header>
 
   <section class="hero">
-    <h1>Plan and review class schedules with confidence</h1>
-    <p>Organize courses and rooms, generate schedule options, and check capacity, equipment, and conflicts. Review proposed schedules before they are approved.</p>
-    <a class="btn lg" style="background:#fff;color:var(--primary-d)" id="heroCta" href="pages/register.html">Get started free</a>
-    <a class="btn lg secondary" href="pages/login.html">I already have an account</a>
+    <div class="hero-layout">
+      <div class="hero-copy">
+        <p class="hero-kicker"><span aria-hidden="true">✦</span> A calmer way to plan campus life</p>
+        <h1>Make room for a better schedule.</h1>
+        <p>Bring courses, people, and rooms together. Build schedule options, spot conflicts early, and give every timetable a thoughtful review.</p>
+        <div class="hero-actions">
+          <a class="btn lg" id="heroCta" href="pages/register.html">Get started <span aria-hidden="true">→</span></a>
+          <a class="btn lg secondary" href="pages/login.html">I have an account</a>
+        </div>
+        <p class="hero-note"><span class="hero-note-dot" aria-hidden="true"></span> Clear plans for students, faculty, and administrators</p>
+      </div>
+      <div class="hero-visual" aria-label="Illustration of a weekly class schedule">
+        <div class="schedule-window">
+          <div class="schedule-window-head">
+            <div class="window-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+            <span>YOUR WEEK, IN VIEW</span>
+            <span class="schedule-status"><i aria-hidden="true"></i> Looking good</span>
+          </div>
+          <div class="schedule-board">
+            <div class="schedule-time"><span>09:00</span><span>11:00</span><span>13:00</span><span>15:00</span></div>
+            <div class="schedule-day">
+              <span class="schedule-day-name">MON</span>
+              <div class="schedule-block schedule-block-teal"><b>Design studio</b><small>Room 204 · 9:00</small></div>
+              <div class="schedule-block schedule-block-coral"><b>Humanities</b><small>East Hall · 13:00</small></div>
+            </div>
+            <div class="schedule-day">
+              <span class="schedule-day-name">TUE</span>
+              <div class="schedule-block schedule-block-violet"><b>Data systems</b><small>Lab 3 · 11:00</small></div>
+              <div class="schedule-block schedule-block-gold"><b>Open study</b><small>Library · 15:00</small></div>
+            </div>
+            <div class="schedule-day">
+              <span class="schedule-day-name">WED</span>
+              <div class="schedule-block schedule-block-teal"><b>Design studio</b><small>Room 204 · 9:00</small></div>
+              <div class="schedule-block schedule-block-violet"><b>Data systems</b><small>Lab 3 · 13:00</small></div>
+            </div>
+          </div>
+          <div class="schedule-window-foot"><span><i class="schedule-legend-dot"></i> Balanced week</span><span>3 days previewed</span></div>
+        </div>
+        <div class="hero-sticker" aria-hidden="true"><span>✓</span> Room to focus</div>
+      </div>
+    </div>
   </section>
 
   <section class="section" id="how-it-works">
@@ -54,18 +91,18 @@
 
   <section class="section" id="features">
     <h2>Everything you need to schedule with confidence</h2>
-    <p class="sub">Tools support the scheduling lifecycle, from room selection to review.</p>
+    <p class="sub">Tools support the scheduling lifecycle, from room selection to review. Select any card to see what it does.</p>
     <div class="auto-grid">
-      <div class="feature"><div class="ic">🗂️</div><h3>Scheduling Information Management</h3><p class="muted small">Organize courses, instructors, rooms, and schedule sessions in the configured MySQL database.</p></div>
-      <div class="feature"><div class="ic">⚙️</div><h3>Automated Schedule Generation</h3><p class="muted small">Generate candidate class schedules from configured courses, rooms, and constraints.</p></div>
-      <div class="feature"><div class="ic">🎯</div><h3>Constraint Optimization</h3><p class="muted small">A heuristic search compares candidate schedules and returns a high-scoring option; review is still required.</p></div>
-      <div class="feature"><div class="ic">🏫</div><h3>Classroom Availability</h3><p class="muted small">See which rooms are free for any day and time.</p></div>
-      <div class="feature"><div class="ic">👥</div><h3>Classroom Capacity</h3><p class="muted small">Compare expected class size with each room’s recorded capacity.</p></div>
-      <div class="feature"><div class="ic">🖥️</div><h3>Equipment Aware</h3><p class="muted small">Use recorded room and course equipment requirements when checking room fit.</p></div>
-      <div class="feature"><div class="ic">⚠️</div><h3>Schedule Conflict Detection</h3><p class="muted small">Highlights room and instructor overlaps, plus shared-student conflicts for review.</p></div>
-      <div class="feature"><div class="ic">💡</div><h3>Alternative Scheduling Suggestions</h3><p class="muted small">Compare other available time slots and rooms when adjusting a schedule.</p></div>
-      <div class="feature"><div class="ic">📅</div><h3>Schedule Viewing &amp; Management</h3><p class="muted small">View schedules in weekly timetable and list formats.</p></div>
-      <div class="feature"><div class="ic">✅</div><h3>Schedule Review &amp; Approval</h3><p class="muted small">Faculty can submit schedules for admin review and approval.</p></div>
+      <details class="feature feature-toggle"><summary><span class="feature-summary-copy"><span class="ic" aria-hidden="true">🗂️</span><span><strong>Scheduling Information Management</strong><small>Explore this feature</small></span></span><span class="feature-toggle-mark" aria-hidden="true">+</span></summary><p class="muted small">Organize courses, instructors, rooms, and schedule sessions in the configured MySQL database.</p></details>
+      <details class="feature feature-toggle"><summary><span class="feature-summary-copy"><span class="ic" aria-hidden="true">⚙️</span><span><strong>Automated Schedule Generation</strong><small>Explore this feature</small></span></span><span class="feature-toggle-mark" aria-hidden="true">+</span></summary><p class="muted small">Generate candidate class schedules from configured courses, rooms, and constraints.</p></details>
+      <details class="feature feature-toggle"><summary><span class="feature-summary-copy"><span class="ic" aria-hidden="true">🎯</span><span><strong>Constraint Optimization</strong><small>Explore this feature</small></span></span><span class="feature-toggle-mark" aria-hidden="true">+</span></summary><p class="muted small">A heuristic search compares candidate schedules and returns a high-scoring option; review is still required.</p></details>
+      <details class="feature feature-toggle"><summary><span class="feature-summary-copy"><span class="ic" aria-hidden="true">🏫</span><span><strong>Classroom Availability</strong><small>Explore this feature</small></span></span><span class="feature-toggle-mark" aria-hidden="true">+</span></summary><p class="muted small">See which rooms are free for any day and time.</p></details>
+      <details class="feature feature-toggle"><summary><span class="feature-summary-copy"><span class="ic" aria-hidden="true">👥</span><span><strong>Classroom Capacity</strong><small>Explore this feature</small></span></span><span class="feature-toggle-mark" aria-hidden="true">+</span></summary><p class="muted small">Compare expected class size with each room’s recorded capacity.</p></details>
+      <details class="feature feature-toggle"><summary><span class="feature-summary-copy"><span class="ic" aria-hidden="true">🖥️</span><span><strong>Equipment Aware</strong><small>Explore this feature</small></span></span><span class="feature-toggle-mark" aria-hidden="true">+</span></summary><p class="muted small">Use recorded room and course equipment requirements when checking room fit.</p></details>
+      <details class="feature feature-toggle"><summary><span class="feature-summary-copy"><span class="ic" aria-hidden="true">⚠️</span><span><strong>Schedule Conflict Detection</strong><small>Explore this feature</small></span></span><span class="feature-toggle-mark" aria-hidden="true">+</span></summary><p class="muted small">Highlights room and instructor overlaps, plus shared-student conflicts for review.</p></details>
+      <details class="feature feature-toggle"><summary><span class="feature-summary-copy"><span class="ic" aria-hidden="true">💡</span><span><strong>Alternative Scheduling Suggestions</strong><small>Explore this feature</small></span></span><span class="feature-toggle-mark" aria-hidden="true">+</span></summary><p class="muted small">Compare other available time slots and rooms when adjusting a schedule.</p></details>
+      <details class="feature feature-toggle"><summary><span class="feature-summary-copy"><span class="ic" aria-hidden="true">📅</span><span><strong>Schedule Viewing &amp; Management</strong><small>Explore this feature</small></span></span><span class="feature-toggle-mark" aria-hidden="true">+</span></summary><p class="muted small">View schedules in weekly timetable and list formats.</p></details>
+      <details class="feature feature-toggle"><summary><span class="feature-summary-copy"><span class="ic" aria-hidden="true">✅</span><span><strong>Schedule Review &amp; Approval</strong><small>Explore this feature</small></span></span><span class="feature-toggle-mark" aria-hidden="true">+</span></summary><p class="muted small">Faculty can submit schedules for admin review and approval.</p></details>
     </div>
   </section>
 
