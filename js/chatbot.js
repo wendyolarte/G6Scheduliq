@@ -68,11 +68,35 @@
     const language = String(navigator.language || 'en').toLowerCase();
     if (language.startsWith('ko')) return 'ko';
     if (language.startsWith('es')) return 'es';
-    if (language.startsWith('ceb') || language.startsWith('fil')) return 'ceb';
+    if (language.startsWith('ja')) return 'ja';
+    if (language.startsWith('fil') || language.startsWith('tl')) return 'fil';
+    if (language.startsWith('ceb')) return 'ceb';
+    if (language.startsWith('hi')) return 'hi';
+    if (language.startsWith('zh')) return 'zh';
     return 'en';
   }
 
   const languageUi = {
+    ja: {
+      greeting: 'こんにちは！時間割、教室、アカウント設定、アプリの機能についてお手伝いできます。何について知りたいですか？',
+      placeholder: '時間割、教室、または機能について質問してください...',
+      prompts: ['今日の自分の時間割は？', '今空いている教室は？', '時間割をスキャンするには？']
+    },
+    fil: {
+      greeting: 'Kamusta! Maaari kitang tulungan sa mga iskedyul, silid, account, at mga feature ng app. Ano ang gusto mong malaman?',
+      placeholder: 'Magtanong tungkol sa iskedyul, silid, o feature...',
+      prompts: ['Ano ang aking iskedyul ngayon?', 'Aling silid ang libre ngayon?', 'Paano ko i-scan ang aking timetable?']
+    },
+    hi: {
+      greeting: 'नमस्ते! मैं शेड्यूल, कमरे, खाता सेटअप और ऐप सुविधाओं में आपकी मदद कर सकता हूँ। आप क्या जानना चाहते हैं?',
+      placeholder: 'शेड्यूल, कमरे या सुविधाओं के बारे में पूछें...',
+      prompts: ['आज मेरा शेड्यूल क्या है?', 'अभी कौन-से कमरे खाली हैं?', 'मैं अपना टाइमटेबल कैसे स्कैन करूँ?']
+    },
+    zh: {
+      greeting: '你好！我可以帮助你查询课程表、教室、账户设置和应用功能。你想了解什么？',
+      placeholder: '询问课程表、教室或功能...',
+      prompts: ['我今天的课程表是什么？', '现在哪些教室空闲？', '如何扫描我的课程表？']
+    },
     ko: {
       greeting: '안녕하세요! 일정, 강의실, 계정 설정 및 앱 기능을 도와드릴 수 있습니다. 무엇을 알고 싶으신가요?',
       placeholder: '일정, 강의실 또는 기능에 대해 질문하세요...',
