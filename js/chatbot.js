@@ -64,6 +64,42 @@
 
   let sending = false;
 
+  function browserLanguage() {
+    const language = String(navigator.language || 'en').toLowerCase();
+    if (language.startsWith('ko')) return 'ko';
+    if (language.startsWith('es')) return 'es';
+    if (language.startsWith('ceb') || language.startsWith('fil')) return 'ceb';
+    return 'en';
+  }
+
+  const languageUi = {
+    ko: {
+      greeting: '안녕하세요! 일정, 강의실, 계정 설정 및 앱 기능을 도와드릴 수 있습니다. 무엇을 알고 싶으신가요?',
+      placeholder: '일정, 강의실 또는 기능에 대해 질문하세요...',
+      prompts: ['오늘 내 일정은 무엇인가요?', '지금 빈 강의실은 어디인가요?', '시간표는 어떻게 스캔하나요?']
+    },
+    es: {
+      greeting: '¡Hola! Puedo ayudarte con horarios, aulas, configuración de cuentas y funciones de la aplicación. ¿Qué deseas saber?',
+      placeholder: 'Pregunta sobre horarios, aulas o funciones...',
+      prompts: ['¿Cuál es mi horario hoy?', '¿Qué aulas están libres ahora?', '¿Cómo escaneo mi horario?']
+    },
+    ceb: {
+      greeting: 'Maayong adlaw! Motabang ako sa imong schedule, kwarto, account, ug mga feature sa app. Unsa ang imong gusto nga mahibal-an?',
+      placeholder: 'Mangutana bahin sa schedule, kwarto, o features...',
+      prompts: ['Unsa ang akong schedule karon?', 'Unsa nga kwarto ang libre karon?', 'Unsaon nako pag-scan sa akong timetable?']
+    },
+    en: {
+      greeting: 'Hi! I can help with schedules, rooms, account setup, and app features. What would you like to know?',
+      placeholder: 'Ask about schedules, rooms, or features...',
+      prompts: null
+    }
+  };
+
+  function setUiLanguage(language) {
+    const ui = languageUi[language] || languageUi.en;
+    input.placeholder = ui.placeholder;
+  }
+
   function appendFormattedText(target, text) {
     const lines = String(text).split('\n');
     lines.forEach((line, index) => {
@@ -111,15 +147,18 @@
 
   function showGreeting() {
     messages.replaceChildren();
-    addMessage('Hi! I can help with schedules, rooms, account setup, and app features. What would you like to know?', 'bot');
+    const language = browserLanguage();
+    setUiLanguage(language);
+    const ui = languageUi[language] || languageUi.en;
+    addMessage(ui.greeting, 'bot');
     const user = API.user();
-    const prompts = user?.role === 'student'
+    const prompts = ui.prompts || (user?.role === 'student'
       ? ['What is my schedule today?', 'Which rooms are free now?', 'How do I scan my timetable?']
       : user?.role === 'faculty'
         ? ['Show my classes', 'Any schedule conflicts?', 'How do I generate a schedule?']
         : user?.role === 'admin'
           ? ['Any pending approvals?', 'Any schedule conflicts?', 'How do I add a user?']
-          : ['What can you do?', 'How do I sign up?', 'What features are there?'];
+          : ['What can you do?', 'How do I sign up?', 'What features are there?']);
     showSuggestions(prompts);
   }
 
@@ -142,6 +181,7 @@
       if (!result || typeof result.reply !== 'string') throw new Error('The assistant returned an invalid response.');
       pending.remove();
       addMessage(result.reply, 'bot');
+      if (typeof result.language === 'string') setUiLanguage(result.language);
       showSuggestions(Array.isArray(result.suggestions) ? result.suggestions : []);
     } catch (error) {
       pending.remove();
