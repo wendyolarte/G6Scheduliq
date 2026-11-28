@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   const u = API.user(), canEditLinks = u.role !== 'student';
   let entries = [], events = [], courses = [];
 
-  // default semester start = next Monday
   const d = new Date(); d.setDate(d.getDate() + ((8 - d.getDay()) % 7 || 7));
   $('#startDate').value = d.toISOString().slice(0, 10);
   $('#zoomNote').textContent = canEditLinks
@@ -78,6 +77,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const rows = items().map(i => `• ${i.title}: ${DAY_FULL[i.day]} ${fmt12(i.start_time)}–${fmt12(i.end_time)}${i.location ? ' @ ' + i.location : ''}${i.zoom_link ? ' (Zoom: ' + i.zoom_link + ')' : ''}`);
     return `Class schedule\n${rows.join('\n')}`;
   };
+
   $('#copyBtn').onclick = async () => {
     try { await navigator.clipboard.writeText(announcement()); toast('Copied. Open Classroom and paste it into an announcement.', 'success'); }
     catch { modal({ title: 'Copy this text', body: `<textarea rows="10" readonly>${esc(announcement())}</textarea>`, actions: [{ label: 'Close' }] }); }
