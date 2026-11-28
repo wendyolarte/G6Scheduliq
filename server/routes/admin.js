@@ -71,3 +71,30 @@ router.delete('/users/:id', async (req, res) => {
 });
 
 module.exports = router;
+
+router.put('/users/:id', async (req, res) => {
+  const id = req.params.id;
+  const { password } = req.body;
+
+  if (password) {
+    if (String(password).length < 8) {
+      return res.status(400).json({
+        error: 'Password must be at least 8 characters'
+      });
+    }
+
+    const passwordHash = await bcrypt.hash(
+      String(password),
+      10
+    );
+
+    await pool.query(
+      'UPDATE users SET password_hash=? WHERE id=?',
+      [passwordHash, id]
+    );
+  }
+
+  res.json({
+    message: 'User updated successfully'
+  });
+});

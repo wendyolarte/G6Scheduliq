@@ -6,11 +6,18 @@
   <title>Log in – Scheduliq</title>
   <link rel="stylesheet" href="../css/style.css">
 </head>
+
 <body>
   <div class="auth-wrap">
+
     <div class="auth-art">
-      <a href="../index.html" class="brand"><span class="logo">🎓</span>SchedulIq </a>
+      <a href="../index.html" class="brand">
+        <span class="logo">🎓</span>
+        SchedulIq
+      </a>
+
       <h2>Welcome back</h2>
+
       <ul>
         <li>See your weekly timetable at a glance</li>
         <li>Find free rooms with the right equipment</li>
@@ -18,26 +25,93 @@
         <li>Ask the built-in assistant anything</li>
       </ul>
     </div>
+
     <div class="auth-form">
       <div class="auth-box">
+
         <h1>Log in</h1>
-        <p class="muted">Choose your mode, then sign in.</p>
+        <p class="muted">
+          Choose your mode, then sign in.
+        </p>
+
         <div class="seg" id="modeSeg" style="margin-bottom:1rem">
-          <button type="button" data-mode="student" class="active">🎒 Student</button>
-          <button type="button" data-mode="faculty">👩‍🏫 Faculty/Staff</button>
-          <button type="button" data-mode="admin">🛡️ Admin</button>
+          <button type="button" data-mode="student" class="active">
+            🎒 Student
+          </button>
+
+          <button type="button" data-mode="faculty">
+            👩‍🏫 Faculty/Staff
+          </button>
+
+          <button type="button" data-mode="admin">
+            🛡️ Admin
+          </button>
         </div>
+
         <div id="err" class="alert error hidden"></div>
+
         <form id="loginForm" novalidate>
-          <div class="field"><label for="email">Email</label><input id="email" type="email" placeholder="name.surename@1.ustp.edu.ph" required autocomplete="username"></div>
-          <div class="field"><label for="password">Password</label><input id="password" type="password" placeholder="Your password" required autocomplete="current-password"></div>
-          <button class="btn block lg" id="submitBtn" type="submit">Log in</button>
+
+          <div class="field">
+            <label for="email">Email</label>
+
+            <input
+              id="email"
+              type="email"
+              placeholder="name.surname@1.ustp.edu.ph"
+              required
+              autocomplete="username">
+          </div>
+
+          <div class="field">
+            <label for="password">Password</label>
+
+            <input
+              id="password"
+              type="password"
+              placeholder="Your password"
+              required
+              autocomplete="current-password">
+          </div>
+
+          <!-- FORGOT PASSWORD LINK -->
+          <p style="text-align:right;margin-top:-5px;margin-bottom:15px">
+            <a href="forgot-password.html">
+              Forgot Password?
+            </a>
+          </p>
+
+          <button
+            class="btn block lg"
+            id="submitBtn"
+            type="submit">
+            Log in
+          </button>
+
         </form>
-        <p class="center small" style="margin-top:1rem" id="signupLine">New here? <a href="register.html">Create an account</a></p>
-        <p class="center small"><a href="../index.html">← Back to home</a></p>
+
+        <p
+          class="center small"
+          style="margin-top:1rem"
+          id="signupLine">
+
+          New here?
+          <a href="register.html">
+            Create an account
+          </a>
+        </p>
+
+        <p class="center small">
+          <a href="../index.html">
+            ← Back to home
+          </a>
+        </p>
+
       </div>
     </div>
+
   </div>
+
   <script src="../js/api.js"></script>
   <script src="../js/ui.js"></script>
   <script src="../js/login.js"></script>
