@@ -1,8 +1,3 @@
-/**
- * Rule-based assistant that answers from the live database:
- * your schedule, free rooms, room capacity/equipment, conflicts, approvals, course info,
- * and how-to help for every feature.
- */
 const pool = require('../config/db');
 const { loadContext, loadEntries, entriesForUser } = require('./data');
 const S = require('./scheduler');

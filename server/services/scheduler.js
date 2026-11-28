@@ -1,8 +1,3 @@
-/**
- * Scheduling engine: conflict detection, room availability, constraint-based
- * schedule generation with optimisation, and alternative suggestions.
- * Pure functions - no database access - so it is easy to test.
- */
 const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const toMin = t => { const [h, m] = String(t).split(':'); return (+h) * 60 + (+m || 0); };
 const toHHMM = m => `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`;
